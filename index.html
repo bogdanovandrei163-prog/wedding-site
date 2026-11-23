@@ -4,21 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Андрей & Диана | Свадьба</title>
-    <!-- Подключаем шрифты -->
+    <!-- Шрифты как в макете -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
-    <!-- Подключаем библиотеку Supabase через CDN -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Библиотека Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
     <style>
-        /* Базовые стили в нежных тонах */
         :root {
-            --bg-color: #f9f6f0;
+            --bg-color: #fcf9f5;
             --text-color: #4a3b32;
             --accent-color: #8b3a3a;
             --font-title: 'Cormorant Garamond', serif;
             --font-text: 'Montserrat', sans-serif;
         }
+
         body {
             margin: 0;
             padding: 0;
@@ -26,84 +27,261 @@
             color: var(--text-color);
             font-family: var(--font-text);
             text-align: center;
+            line-height: 1.6;
         }
+
+        h1, h2, h3 { font-family: var(--font-title); font-weight: 400; margin-bottom: 15px; }
+        .amp { color: var(--accent-color); font-style: italic; }
+
+        /* Обложка */
         .hero {
-            height: 80vh;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background-color: #e8e0d5; /* Замените на ваше фото позже */
+            /* Замените ссылку ниже на ваше фото обложки */
+            background: linear-gradient(rgba(252, 249, 245, 0.7), rgba(252, 249, 245, 0.7)), url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80') center/cover;
         }
-        h1, h2, h3 { font-family: var(--font-title); font-weight: 400; }
-        h1 { font-size: 3.5rem; margin: 0; }
-        .amp { color: var(--accent-color); font-style: italic; }
-        .date { font-size: 1.2rem; letter-spacing: 3px; margin-top: 10px; }
-        section { padding: 40px 20px; }
-        .countdown { display: flex; justify-content: center; gap: 20px; font-family: var(--font-title); font-size: 2rem; color: var(--accent-color); }
-        .countdown div p { font-size: 0.9rem; font-family: var(--font-text); color: var(--text-color); margin: 5px 0 0 0; }
-        .form-container { max-width: 500px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        input, select, textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-family: var(--font-text); }
-        button { background-color: var(--accent-color); color: white; padding: 12px 30px; border: none; border-radius: 30px; cursor: pointer; font-family: var(--font-text); font-size: 1rem; width: 100%; }
-        button:hover { background-color: #6b2a2a; }
-        #status { margin-top: 15px; font-weight: 500; }
+        .hero p { letter-spacing: 3px; text-transform: uppercase; font-size: 0.9rem; }
+        .hero h1 { font-size: 4.5rem; margin: 10px 0; }
+        .hero .date { font-size: 1.5rem; margin-top: 20px; }
+
+        section { padding: 60px 20px; max-width: 800px; margin: 0 auto; }
+        
+        /* Календарь */
+        .calendar {
+            display: inline-grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+            font-family: var(--font-text);
+        }
+        .calendar div { padding: 10px; font-size: 0.9rem; }
+        .calendar .header { font-weight: 500; color: var(--accent-color); }
+        .calendar .highlight { background-color: var(--accent-color); color: white; border-radius: 50%; font-weight: bold; }
+
+        /* Программа */
+        .timeline-item { margin-bottom: 30px; }
+        .timeline-item h3 { font-size: 1.8rem; color: var(--accent-color); margin-bottom: 5px; }
+        .address { font-size: 0.9rem; color: #777; }
+
+        /* Место проведения */
+        .venue-img { width: 100%; max-width: 500px; border-radius: 20px; margin: 20px 0; }
+        .btn {
+            display: inline-block; background-color: var(--accent-color); color: white;
+            padding: 12px 30px; text-decoration: none; border-radius: 30px; 
+            margin-top: 15px; transition: 0.3s; border: none; cursor: pointer;
+        }
+        .btn:hover { background-color: #6b2a2a; }
+
+        /* Анкета */
+        .form-container { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: left; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.9rem; }
+        .form-group input[type="text"], .form-group select, .form-group textarea {
+            width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-family: var(--font-text);
+        }
+        .checkbox-group label { display: block; font-weight: 400; margin-bottom: 5px; cursor: pointer; }
+        .radio-group { display: flex; gap: 15px; flex-wrap: wrap; }
+        .radio-group label { font-weight: 400; cursor: pointer; }
+
+        /* Подвал */
+        footer { padding: 40px 20px; background-color: #e8e0d5; margin-top: 40px; }
+        .contact-info { margin-top: 20px; font-size: 0.9rem; }
+        
+        /* Таймер */
+        .countdown { display: flex; justify-content: center; gap: 20px; font-family: var(--font-title); font-size: 2.5rem; color: var(--accent-color); margin: 20px 0; }
+        .countdown div p { font-size: 0.8rem; font-family: var(--font-text); color: var(--text-color); margin: 0; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
+    <!-- Обложка (Стр. 1) -->
     <header class="hero">
-        <p>ПРИГЛАШЕНИЕ НА СВАДЬБУ</p>
         <h1>Андрей <span class="amp">&</span> Диана</h1>
-        <p class="date">25 ИЮНЯ 2027</p>
+        <p>Приглашение на свадьбу</p>
+        <div class="date">ПЯТНИЦА, 25 ИЮНЯ 2027</div>
     </header>
 
+    <!-- Приветствие и Календарь (Стр. 2) -->
     <section>
-        <h2>До свадьбы осталось:</h2>
+        <h2>Дорогие гости!</h2>
+        <p>Мы хотим оказаться в окружении самых близких и дорогих для нас людей. Искренне и от всей души будем рады видеть вас среди гостей на нашей свадьбе.</p>
+        <p><i>С любовью, Андрей & Диана</i></p>
+        
+        <h3 style="margin-top: 40px;">ИЮНЬ 2027</h3>
+        <div class="calendar">
+            <div class="header">ПН</div><div class="header">ВТ</div><div class="header">СР</div><div class="header">ЧТ</div><div class="header">ПТ</div><div class="header">СБ</div><div class="header">ВС</div>
+            <div>31</div><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div>
+            <div>7</div><div>8</div><div>9</div><div>10</div><div>11</div><div>12</div><div>13</div>
+            <div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div>19</div><div>20</div>
+            <div>21</div><div>22</div><div>23</div><div>24</div><div class="highlight">25</div><div>26</div><div>27</div>
+            <div>28</div><div>29</div><div>30</div><div>1</div><div>2</div><div>3</div><div>4</div>
+        </div>
+    </section>
+
+    <!-- Программа дня (Стр. 2) -->
+    <section style="background-color: #fff;">
+        <h2>Программа дня</h2>
+        <div class="timeline-item" style="margin-top: 30px;">
+            <h3>09:00</h3>
+            <h4 style="margin: 0;">ВЫКУП НЕВЕСТЫ</h4>
+            <p class="address">Традиции, конкурсы, веселье по адресу:<br>г. Новокуйбышевск, ул. Победы 39А</p>
+        </div>
+        <!-- Добавьте другие пункты программы по аналогии -->
+    </section>
+
+    <!-- Место проведения (Стр. 4) -->
+    <section>
+        <h2>Место проведения</h2>
+        <p>ул. Братьев Глубоковых, 8А, село Лопатино</p>
+        <!-- Замените картинку ниже на фото ресторана -->
+        <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&q=80" alt="Ресторан" class="venue-img">
+        <p style="font-size: 0.9rem;">Рядом с рестораном есть бесплатная парковка для гостей. Въезд находится со стороны ул. Братьев Глубоковых.</p>
+        <a href="https://yandex.ru/maps/?text=Самара, село Лопатино, ул. Братьев Глубоковых 8А" target="_blank" class="btn">Смотреть на карте</a>
+    </section>
+
+    <!-- Пожелания (Стр. 4-5) -->
+    <section style="background-color: #fff;">
+        <h2>Пожелания</h2>
+        <h4>Ваше присутствие</h4>
+        <p>Главный подарок — вы рядом в этот день.</p>
+        <h4>Тёплые слова</h4>
+        <p>Можно оставить в анкете ниже и при личной встрече.</p>
+        <h4>Конверт</h4>
+        <p>Если думаете о материальной поддержке — это тоже уместно.</p>
+    </section>
+
+    <!-- Наша история (Стр. 5) -->
+    <section>
+        <h2>Наша история</h2>
+        <p>Наша история началась с простой встречи и выросла в решение идти дальше вместе. Спасибо, что разделяете этот день с нами.</p>
+    </section>
+
+    <!-- Анкета гостя (Стр. 6-7) -->
+    <section style="background-color: #f4efe8;">
+        <h2 style="font-size: 3rem; margin-bottom: 5px;">Анкета гостя</h2>
+        <p style="margin-bottom: 30px;">Пожалуйста, заполните анкету до 25 июня 2027</p>
+        
+        <form id="rsvp-form" class="form-container">
+            <div class="form-group">
+                <label>Имя гостя *</label>
+                <input type="text" id="name" required placeholder="Ваше Имя и Фамилия">
+            </div>
+
+            <div class="form-group">
+                <label>Вы придёте? *</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="attendance" value="Приду" required> Приду</label>
+                    <label><input type="radio" name="attendance" value="Не смогу"> Не смогу</label>
+                    <label><input type="radio" name="attendance" value="Возможно"> Возможно</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Со мной будет ещё кто-то (напишите имена)</label>
+                <input type="text" id="guests_count" placeholder="Например: Супруг(а) и 1 ребенок">
+            </div>
+
+            <div class="form-group">
+                <label>Напитки (необязательно)</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" class="drink" value="Красное вино"> Красное вино</label>
+                    <label><input type="checkbox" class="drink" value="Белое вино"> Белое вино</label>
+                    <label><input type="checkbox" class="drink" value="Игристое"> Игристое</label>
+                    <label><input type="checkbox" class="drink" value="Крепкий алкоголь"> Крепкий алкоголь</label>
+                    <label><input type="checkbox" class="drink" value="Пиво"> Пиво</label>
+                    <label><input type="checkbox" class="drink" value="Сок"> Сок</label>
+                    <label><input type="checkbox" class="drink" value="Лимонад / морс"> Лимонад / морс</label>
+                    <label><input type="checkbox" class="drink" value="Чай / кофе"> Чай / кофе</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Меню</label>
+                <select id="menu">
+                    <option value="">Выберите предпочтение</option>
+                    <option value="Мясное">Мясное</option>
+                    <option value="Рыбное">Рыбное</option>
+                    <option value="Вегетарианское">Вегетарианское</option>
+                    <option value="Веганское">Веганское</option>
+                    <option value="Детское">Детское</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Нужен трансфер на свадьбу?</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="transfer" value="Да"> Да</label>
+                    <label><input type="radio" name="transfer" value="Нет"> Нет</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Нужна помощь с размещением?</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="accommodation" value="Да"> Да</label>
+                    <label><input type="radio" name="accommodation" value="Нет"> Нет</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Какие песни добавить в плейлист? (до 5)</label>
+                <input type="text" id="music" placeholder="Название или исполнитель">
+            </div>
+
+            <div class="form-group">
+                <label>Будете ли вы на втором дне?</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="day2" value="Да"> Да</label>
+                    <label><input type="radio" name="day2" value="Нет"> Нет</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Когда планируете приехать?</label>
+                <input type="text" id="arrival_time" placeholder="к церемонии, к банкету, около 16:00...">
+            </div>
+
+            <div class="form-group">
+                <label>Что ещё нам важно знать?</label>
+                <textarea id="comment" rows="3" placeholder="Пожелания или уточнения..."></textarea>
+            </div>
+
+            <button type="submit" class="btn" style="width: 100%;" id="submit-btn">Отправить ответ</button>
+            <p id="status" style="text-align: center; margin-top: 15px; font-weight: 500;"></p>
+        </form>
+    </section>
+
+    <!-- Подвал и Таймер (Стр. 8) -->
+    <footer>
+        <h2>До скорой встречи!</h2>
+        <p>До свадьбы осталось:</p>
+        
         <div class="countdown">
             <div><span id="days">0</span><p>дней</p></div>
             <div><span id="hours">0</span><p>часов</p></div>
             <div><span id="minutes">0</span><p>минут</p></div>
             <div><span id="seconds">0</span><p>секунд</p></div>
         </div>
-    </section>
 
-    <section>
-        <h2>Анкета гостя</h2>
-        <div class="form-container">
-            <p>Пожалуйста, заполните анкету до 25 июня 2027</p>
-            <form id="rsvp-form">
-                <input type="text" id="name" placeholder="Ваше Имя и Фамилия" required>
-                <select id="attendance" required>
-                    <option value="">Вы придёте?</option>
-                    <option value="Приду">Приду</option>
-                    <option value="Не смогу">Не смогу</option>
-                    <option value="Возможно">Возможно</option>
-                </select>
-                <input type="text" id="drinks" placeholder="Ваши предпочтения в напитках (необязательно)">
-                <select id="menu">
-                    <option value="">Выберите меню</option>
-                    <option value="Мясное">Мясное</option>
-                    <option value="Рыбное">Рыбное</option>
-                    <option value="Вегетарианское">Вегетарианское</option>
-                </select>
-                <textarea id="comment" rows="3" placeholder="Комментарий или пожелания (необязательно)"></textarea>
-                <button type="submit" id="submit-btn">Отправить ответ</button>
-            </form>
-            <p id="status"></p>
+        <h3>Андрей & Диана</h3>
+        
+        <div class="contact-info">
+            <p>Остались вопросы? Напишите или позвоните нам:</p>
+            <p><b>Андрей:</b> +7 937-237-39-40<br>
+            <b>Диана:</b> +7 964-985-45-55</p>
         </div>
-    </section>
+    </footer>
 
     <script>
         // --- 1. Инициализация Supabase ---
-        // Вставьте сюда ваши данные из Supabase
         const supabaseUrl = 'https://wvsfjcnqtuhoelflsczx.supabase.co';
         const supabaseKey = 'sb_publishable_fC7k0JzOVDO57yK5i92T_Q_IIL6Cvxu';
-        
-        // Создаем клиент Supabase
-        const { createClient } = supabase;
-        const supabaseClient = createClient(supabaseUrl, supabaseKey);
+        const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-        // --- 2. Логика таймера ---
+        // --- 2. Таймер ---
         const weddingDate = new Date("June 25, 2027 11:10:00").getTime();
         setInterval(() => {
             const now = new Date().getTime();
@@ -116,40 +294,51 @@
             document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000);
         }, 1000);
 
-        // --- 3. Отправка формы в Supabase ---
-        const form = document.getElementById('rsvp-form');
-        const statusEl = document.getElementById('status');
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault(); // Останавливаем перезагрузку страницы
+        // --- 3. Отправка формы ---
+        document.getElementById('rsvp-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const statusEl = document.getElementById('status');
+            const btn = document.getElementById('submit-btn');
+            
             statusEl.innerText = 'Отправка...';
             statusEl.style.color = 'var(--text-color)';
-            document.getElementById('submit-btn').disabled = true;
+            btn.disabled = true;
 
-            // Собираем данные из полей
+            // Собираем напитки
+            const selectedDrinks = Array.from(document.querySelectorAll('.drink:checked')).map(cb => cb.value).join(', ');
+            
+            // Собираем радиокнопки
+            const attendance = document.querySelector('input[name="attendance"]:checked')?.value || '';
+            const transfer = document.querySelector('input[name="transfer"]:checked')?.value || '';
+            const accommodation = document.querySelector('input[name="accommodation"]:checked')?.value || '';
+            const day2 = document.querySelector('input[name="day2"]:checked')?.value || '';
+
             const formData = {
                 name: document.getElementById('name').value,
-                attendance: document.getElementById('attendance').value,
-                drinks: document.getElementById('drinks').value,
+                attendance: attendance,
+                guests_count: document.getElementById('guests_count').value,
+                drinks: selectedDrinks,
                 menu: document.getElementById('menu').value,
-                comment: document.getElementById('comment').value,
-                // Поле transfer можно добавить позже, если нужно
+                transfer: transfer,
+                accommodation: accommodation,
+                music: document.getElementById('music').value,
+                day2: day2,
+                arrival_time: document.getElementById('arrival_time').value,
+                comment: document.getElementById('comment').value
             };
 
-            // Отправляем данные в таблицу 'rsvp'
-            const { data, error } = await supabaseClient
-                .from('rsvp')
-                .insert([formData]);
+            const { error } = await supabaseClient.from('rsvp').insert([formData]);
 
             if (error) {
-                console.error('Ошибка:', error);
-                statusEl.innerText = 'Произошла ошибка. Попробуйте позже.';
+                console.error(error);
+                statusEl.innerText = 'Ошибка при отправке. Попробуйте позже.';
                 statusEl.style.color = 'red';
-                document.getElementById('submit-btn').disabled = false;
+                btn.disabled = false;
             } else {
-                statusEl.innerText = 'Спасибо! Ваш ответ отправлен.';
+                statusEl.innerText = 'Спасибо! Ваш ответ успешно отправлен.';
                 statusEl.style.color = 'green';
-                form.reset(); // Очищаем форму
+                document.getElementById('rsvp-form').reset();
+                // btn.disabled = false; // Оставляем кнопку выключенной, чтобы не спамили
             }
         });
     </script>
