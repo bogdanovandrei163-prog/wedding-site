@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Андрей & Диана | Свадьба</title>
+    <!-- Подключаем шрифты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Подключаем библиотеку Supabase через CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        /* Базовые стили в нежных тонах */
+        :root {
+            --bg-color: #f9f6f0;
+            --text-color: #4a3b32;
+            --accent-color: #8b3a3a;
+            --font-title: 'Cormorant Garamond', serif;
+            --font-text: 'Montserrat', sans-serif;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-text);
+            text-align: center;
+        }
+        .hero {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #e8e0d5; /* Замените на ваше фото позже */
+        }
+        h1, h2, h3 { font-family: var(--font-title); font-weight: 400; }
+        h1 { font-size: 3.5rem; margin: 0; }
+        .amp { color: var(--accent-color); font-style: italic; }
+        .date { font-size: 1.2rem; letter-spacing: 3px; margin-top: 10px; }
+        section { padding: 40px 20px; }
+        .countdown { display: flex; justify-content: center; gap: 20px; font-family: var(--font-title); font-size: 2rem; color: var(--accent-color); }
+        .countdown div p { font-size: 0.9rem; font-family: var(--font-text); color: var(--text-color); margin: 5px 0 0 0; }
+        .form-container { max-width: 500px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        input, select, textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-family: var(--font-text); }
+        button { background-color: var(--accent-color); color: white; padding: 12px 30px; border: none; border-radius: 30px; cursor: pointer; font-family: var(--font-text); font-size: 1rem; width: 100%; }
+        button:hover { background-color: #6b2a2a; }
+        #status { margin-top: 15px; font-weight: 500; }
+    </style>
+</head>
+<body>
+
+    <header class="hero">
+        <p>ПРИГЛАШЕНИЕ НА СВАДЬБУ</p>
+        <h1>Андрей <span class="amp">&</span> Диана</h1>
+        <p class="date">25 ИЮНЯ 2027</p>
+    </header>
+
+    <section>
+        <h2>До свадьбы осталось:</h2>
+        <div class="countdown">
+            <div><span id="days">0</span><p>дней</p></div>
+            <div><span id="hours">0</span><p>часов</p></div>
+            <div><span id="minutes">0</span><p>минут</p></div>
+            <div><span id="seconds">0</span><p>секунд</p></div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Анкета гостя</h2>
+        <div class="form-container">
+            <p>Пожалуйста, заполните анкету до 25 июня 2027</p>
+            <form id="rsvp-form">
+                <input type="text" id="name" placeholder="Ваше Имя и Фамилия" required>
+                <select id="attendance" required>
+                    <option value="">Вы придёте?</option>
+                    <option value="Приду">Приду</option>
+                    <option value="Не смогу">Не смогу</option>
+                    <option value="Возможно">Возможно</option>
+                </select>
+                <input type="text" id="drinks" placeholder="Ваши предпочтения в напитках (необязательно)">
+                <select id="menu">
+                    <option value="">Выберите меню</option>
+                    <option value="Мясное">Мясное</option>
+                    <option value="Рыбное">Рыбное</option>
+                    <option value="Вегетарианское">Вегетарианское</option>
+                </select>
+                <textarea id="comment" rows="3" placeholder="Комментарий или пожелания (необязательно)"></textarea>
+                <button type="submit" id="submit-btn">Отправить ответ</button>
+            </form>
+            <p id="status"></p>
+        </div>
+    </section>
+
+    <script>
+        // --- 1. Инициализация Supabase ---
+        // Вставьте сюда ваши данные из Supabase
+        const supabaseUrl = 'https://wvsfjcnqtuhoelflsczx.supabase.co';
+        const supabaseKey = 'sb_publishable_fC7k0JzOVDO57yK5i92T_Q_IIL6Cvxu';
+        
+        // Создаем клиент Supabase
+        const { createClient } = supabase;
+        const supabaseClient = createClient(supabaseUrl, supabaseKey);
+
+        // --- 2. Логика таймера ---
+        const weddingDate = new Date("June 25, 2027 11:10:00").getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+            if (distance < 0) return;
+            
+            document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+            document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById("minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000);
+        }, 1000);
+
+        // --- 3. Отправка формы в Supabase ---
+        const form = document.getElementById('rsvp-form');
+        const statusEl = document.getElementById('status');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Останавливаем перезагрузку страницы
+            statusEl.innerText = 'Отправка...';
+            statusEl.style.color = 'var(--text-color)';
+            document.getElementById('submit-btn').disabled = true;
+
+            // Собираем данные из полей
+            const formData = {
+                name: document.getElementById('name').value,
+                attendance: document.getElementById('attendance').value,
+                drinks: document.getElementById('drinks').value,
+                menu: document.getElementById('menu').value,
+                comment: document.getElementById('comment').value,
+                // Поле transfer можно добавить позже, если нужно
+            };
+
+            // Отправляем данные в таблицу 'rsvp'
+            const { data, error } = await supabaseClient
+                .from('rsvp')
+                .insert([formData]);
+
+            if (error) {
+                console.error('Ошибка:', error);
+                statusEl.innerText = 'Произошла ошибка. Попробуйте позже.';
+                statusEl.style.color = 'red';
+                document.getElementById('submit-btn').disabled = false;
+            } else {
+                statusEl.innerText = 'Спасибо! Ваш ответ отправлен.';
+                statusEl.style.color = 'green';
+                form.reset(); // Очищаем форму
+            }
+        });
+    </script>
+</body>
+</html>
