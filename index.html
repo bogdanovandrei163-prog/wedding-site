@@ -13,14 +13,12 @@
         h1, h2, h3 { font-family: var(--font-t); font-weight: 400; margin-bottom: 15px; }
         .amp { color: var(--accent); font-style: italic; }
         
-        /* Обложка */
         .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(rgba(252, 249, 245, 0.6), rgba(252, 249, 245, 0.6)), url('') center/cover; transition: background 0.5s; }
         .hero h1 { font-size: 4.5rem; margin: 10px 0; }
         .hero .date { font-size: 1.5rem; margin-top: 20px; letter-spacing: 3px; }
 
         section { padding: 50px 20px; max-width: 800px; margin: 0 auto; }
         
-        /* Разделитель с буквами */
         .divider { display: flex; align-items: center; justify-content: center; margin: 40px 0; color: var(--accent); font-family: var(--font-t); font-size: 1.5rem; font-style: italic; }
         .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid #d1c8c0; margin: 0 15px; }
 
@@ -31,36 +29,35 @@
         .calendar .highlight { position: relative; font-weight: bold; }
         .calendar .highlight::after { content: '❤️'; position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%); font-size: 12px; }
 
-        /* Программа */
         .program-item { margin-bottom: 30px; }
         .program-item h3 { font-size: 1.5rem; color: var(--accent); margin-bottom: 5px; }
         .program-item h4 { margin: 0 0 5px 0; font-size: 1.1rem; }
 
-        /* Место проведения */
         .venue-img { width: 100%; max-width: 500px; border-radius: 20px; margin: 20px 0; }
         .venue-name { font-size: 1.8rem; text-transform: uppercase; margin-bottom: 5px; }
 
-        /* Карусель */
-        .carousel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 15px; padding-bottom: 15px; margin-top: 20px; }
-        .carousel img { height: 300px; border-radius: 15px; scroll-snap-align: center; flex-shrink: 0; object-fit: cover; }
-        .carousel::-webkit-scrollbar { display: none; }
+        /* Слайдер (Карусель) */
+        .slider-wrapper { position: relative; max-width: 600px; margin: 20px auto; overflow: hidden; border-radius: 15px; }
+        .slider-track { display: flex; transition: transform 0.3s ease-in-out; }
+        .slider-track img { width: 100%; height: 350px; object-fit: cover; flex-shrink: 0; }
+        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.7); border: none; font-size: 24px; padding: 10px 15px; cursor: pointer; border-radius: 50%; color: var(--accent); z-index: 10; }
+        .slider-btn:hover { background: rgba(255,255,255,0.9); }
+        .slider-prev { left: 10px; }
+        .slider-next { right: 10px; }
 
         /* Форма */
         .form-container { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: left; }
         .form-group { margin-bottom: 25px; }
         .form-group > label { display: block; margin-bottom: 10px; font-weight: 500; font-size: 1rem; }
         
-        /* Поля ввода */
         .input-text { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-family: var(--font-p); }
         
-        /* Кнопки-таблетки (Напитки, Меню) */
         .pill-group { display: flex; flex-wrap: wrap; gap: 10px; }
         .pill { position: relative; cursor: pointer; }
         .pill input { position: absolute; opacity: 0; cursor: pointer; }
         .pill span { display: inline-block; padding: 10px 20px; border: 1px solid #ddd; border-radius: 30px; color: #777; transition: 0.3s; font-size: 0.9rem; }
         .pill input:checked + span { background: var(--accent); color: white; border-color: var(--accent); }
 
-        /* Кнопки Да/Нет */
         .radio-group { display: flex; gap: 15px; }
         .radio-group label { cursor: pointer; }
         .radio-group input { display: none; }
@@ -76,6 +73,15 @@
         .countdown { display: flex; justify-content: center; gap: 20px; font-family: var(--font-t); font-size: 2.5rem; }
         .countdown div p { font-size: 0.8rem; font-family: var(--font-p); margin: 0; text-transform: uppercase; }
 
+        /* Контакты (Жених сверху, Невеста снизу) */
+        .contacts-container { display: flex; flex-direction: column; gap: 20px; margin-top: 20px; }
+        .contact-card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .contact-card h4 { margin: 0 0 5px 0; font-size: 1.2rem; font-family: var(--font-t); }
+        .contact-card a { color: var(--accent); text-decoration: none; font-weight: bold; font-size: 1.1rem; }
+
+        /* +1 Гость */
+        .plus-one-block { background: #fdfaf5; padding: 15px; border-radius: 10px; border: 1px dashed #ccc; margin-top: 15px; }
+
         /* --- АДМИНКА --- */
         #secret-trigger { position: fixed; bottom: 0; left: 0; width: 50px; height: 50px; z-index: 9999; opacity: 0.1; }
         #admin-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
@@ -85,14 +91,13 @@
         .menu-item.active { background: #7c3aed; color: white; }
         .admin-content { flex-grow: 1; padding: 30px; overflow-y: auto; }
         
-        /* Админ карточки */
         .admin-card { background: white; padding: 20px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .admin-card h3 { margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 15px; color: #333;}
         .admin-input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px; box-sizing: border-box; font-family: sans-serif; }
         .admin-btn { background: #7c3aed; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 13px; }
         .admin-btn.danger { background: #ef4444; }
+        .admin-btn.success { background: #10b981; }
         
-        /* Тумблеры */
         .toggle-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
         .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
         .switch input { opacity: 0; width: 0; height: 0; }
@@ -158,11 +163,16 @@
 
     <div class="divider">А & Д</div>
 
-    <!-- 5. НАША ИСТОРИЯ -->
+    <!-- 5. НАША ИСТОРИЯ (Слайдер) -->
     <section>
         <h2>Наша история</h2>
         <p id="story-text" style="margin-bottom: 20px;"></p>
-        <div id="story-carousel" class="carousel"></div>
+        
+        <div class="slider-wrapper" id="story-slider-wrapper" style="display:none;">
+            <button class="slider-btn slider-prev" onclick="moveSlide(-1)">❮</button>
+            <div class="slider-track" id="story-slider-track"></div>
+            <button class="slider-btn slider-next" onclick="moveSlide(1)">❯</button>
+        </div>
     </section>
 
     <div class="divider">А & Д</div>
@@ -184,13 +194,11 @@
                 </div>
             </div>
 
-            <!-- Напитки -->
             <div class="form-group" id="block-drinks">
                 <label>Напитки (необязательно)</label>
                 <div class="pill-group" id="drinks-options"></div>
             </div>
 
-            <!-- Меню -->
             <div class="form-group" id="block-menu">
                 <label>Меню</label>
                 <div class="pill-group" id="menu-options"></div>
@@ -202,12 +210,16 @@
                     <label>Со мной будет ещё кто-то</label>
                     <label class="switch"><input type="checkbox" id="plus-one-toggle" onchange="togglePlusOne()"><span class="slider"></span></label>
                 </div>
-                <div id="plus-one-input" class="hidden" style="margin-top: 15px;">
-                    <input type="text" id="plus-one-name" class="input-text" placeholder="Имя вашего спутника">
+                <div id="plus-one-form" class="plus-one-block hidden">
+                    <label style="font-size:0.9rem; margin-bottom:5px; display:block;">Имя спутника</label>
+                    <input type="text" id="plus-one-name" class="input-text" placeholder="Имя" style="margin-bottom:10px;">
+                    <label style="font-size:0.9rem; margin-bottom:5px; display:block;">Напитки для спутника</label>
+                    <div class="pill-group" id="plus-one-drinks"></div>
+                    <label style="font-size:0.9rem; margin:10px 0 5px 0; display:block;">Меню для спутника</label>
+                    <div class="pill-group" id="plus-one-menu"></div>
                 </div>
             </div>
 
-            <!-- Трансферы и т.д. -->
             <div class="form-group" id="block-transfer">
                 <label>Нужен ли трансфер на свадьбу?</label>
                 <div class="radio-group">
@@ -237,7 +249,6 @@
                 </div>
             </div>
 
-            <!-- Текстовые поля -->
             <div class="form-group" id="block-music">
                 <label>Какие песни добавить в плейлист?</label>
                 <input type="text" id="music" class="input-text" placeholder="Пропишите до 5 песен, не обязательно">
@@ -258,18 +269,18 @@
 
     <div class="divider">А & Д</div>
 
-    <!-- 7. ОСТАЛИСЬ ВОПРОСЫ -->
+    <!-- 7. ОСТАЛИСЬ ВОПРОСЫ (Жених сверху, невеста снизу) -->
     <section id="contacts-section">
         <h2>Остались вопросы?</h2>
         <p>По всем вопросам можно написать или позвонить нам:</p>
-        <div style="display: flex; justify-content: space-around; flex-wrap: wrap; margin-top: 20px;">
-            <div>
-                <h4 style="margin-bottom: 5px;" id="contact-groom-name">Жених</h4>
-                <a href="#" id="contact-groom-phone" style="color: var(--accent); text-decoration: none; font-weight: bold;"></a>
+        <div class="contacts-container">
+            <div class="contact-card">
+                <h4 id="contact-groom-name">Жених</h4>
+                <a href="#" id="contact-groom-phone"></a>
             </div>
-            <div>
-                <h4 style="margin-bottom: 5px;" id="contact-bride-name">Невеста</h4>
-                <a href="#" id="contact-bride-phone" style="color: var(--accent); text-decoration: none; font-weight: bold;"></a>
+            <div class="contact-card">
+                <h4 id="contact-bride-name">Невеста</h4>
+                <a href="#" id="contact-bride-phone"></a>
             </div>
         </div>
     </section>
@@ -323,24 +334,26 @@
                     <div class="admin-card">
                         <h3>1. Первая страница (Обложка)</h3>
                         <label>Имя Жениха</label>
-                        <input type="text" id="inp-hero_groom" class="admin-input" onchange="saveField('hero_groom', this.value)">
+                        <input type="text" id="inp-hero_groom" class="admin-input">
                         <label>Имя Невесты</label>
-                        <input type="text" id="inp-hero_bride" class="admin-input" onchange="saveField('hero_bride', this.value)">
+                        <input type="text" id="inp-hero_bride" class="admin-input">
                         <label>Дата</label>
-                        <input type="text" id="inp-hero_date" class="admin-input" onchange="saveField('hero_date', this.value)">
+                        <input type="text" id="inp-hero_date" class="admin-input">
                         <label>Фон (Фото)</label>
-                        <div style="display:flex; gap:10px; align-items:center;">
+                        <div style="display:flex; gap:10px; align-items:center; margin-bottom:10px;">
                             <input type="file" id="file-hero_bg" accept="image/*">
                             <button class="admin-btn" onclick="uploadPhoto('hero_bg')">Загрузить</button>
                         </div>
+                        <button class="admin-btn success" onclick="saveSectionContent(['hero_groom', 'hero_bride', 'hero_date'])">Сохранить раздел</button>
                     </div>
 
                     <div class="admin-card">
                         <h3>2. Дорогие гости</h3>
                         <label>Текст приглашения</label>
-                        <textarea id="inp-guests_text" class="admin-input" rows="4" onchange="saveField('guests_text', this.value)"></textarea>
+                        <textarea id="inp-guests_text" class="admin-input" rows="4"></textarea>
                         <label>Подпись (С любовью...)</label>
-                        <input type="text" id="inp-guests_signature" class="admin-input" onchange="saveField('guests_signature', this.value)">
+                        <input type="text" id="inp-guests_signature" class="admin-input">
+                        <button class="admin-btn success" onclick="saveSectionContent(['guests_text', 'guests_signature'])">Сохранить раздел</button>
                     </div>
 
                     <div class="admin-card">
@@ -352,58 +365,63 @@
                     <div class="admin-card">
                         <h3>4. Где всё произойдёт</h3>
                         <label>Название ресторана (заглавными)</label>
-                        <input type="text" id="inp-venue_name" class="admin-input" onchange="saveField('venue_name', this.value)">
+                        <input type="text" id="inp-venue_name" class="admin-input">
                         <label>Адрес</label>
-                        <input type="text" id="inp-venue_address" class="admin-input" onchange="saveField('venue_address', this.value)">
+                        <input type="text" id="inp-venue_address" class="admin-input">
                         <label>Полезно знать (парковка и т.д.)</label>
-                        <textarea id="inp-venue_info" class="admin-input" rows="2" onchange="saveField('venue_info', this.value)"></textarea>
+                        <textarea id="inp-venue_info" class="admin-input" rows="2"></textarea>
                         <label>Фото ресторана</label>
-                        <div style="display:flex; gap:10px; align-items:center;">
+                        <div style="display:flex; gap:10px; align-items:center; margin-bottom:10px;">
                             <input type="file" id="file-venue_photo" accept="image/*">
                             <button class="admin-btn" onclick="uploadPhoto('venue_photo')">Загрузить</button>
                         </div>
+                        <button class="admin-btn success" onclick="saveSectionContent(['venue_name', 'venue_address', 'venue_info'])">Сохранить раздел</button>
                     </div>
 
                     <div class="admin-card">
                         <h3>5. Наша история</h3>
                         <label>Текст истории</label>
-                        <textarea id="inp-story_text" class="admin-input" rows="4" onchange="saveField('story_text', this.value)"></textarea>
+                        <textarea id="inp-story_text" class="admin-input" rows="4"></textarea>
                         <label>Фотографии (до 15 шт.)</label>
                         <div style="display:flex; gap:10px; align-items:center; margin-bottom: 10px;">
                             <input type="file" id="file-story" accept="image/*" multiple>
                             <button class="admin-btn" onclick="uploadStoryPhotos()">Загрузить фото</button>
                         </div>
-                        <div id="story-photos-list" style="display:flex; gap:10px; flex-wrap:wrap;"></div>
+                        <div id="story-photos-list" style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:10px;"></div>
+                        <button class="admin-btn success" onclick="saveSectionContent(['story_text'])">Сохранить текст</button>
                     </div>
 
                     <div class="admin-card">
                         <h3>7. Контакты</h3>
                         <label>Имя Жениха</label>
-                        <input type="text" id="inp-contact_groom_name" class="admin-input" onchange="saveField('contact_groom_name', this.value)">
+                        <input type="text" id="inp-contact_groom_name" class="admin-input">
                         <label>Телефон Жениха</label>
-                        <input type="text" id="inp-contact_groom_phone" class="admin-input" onchange="saveField('contact_groom_phone', this.value)">
+                        <input type="text" id="inp-contact_groom_phone" class="admin-input">
                         <label>Имя Невесты</label>
-                        <input type="text" id="inp-contact_bride_name" class="admin-input" onchange="saveField('contact_bride_name', this.value)">
+                        <input type="text" id="inp-contact_bride_name" class="admin-input">
                         <label>Телефон Невесты</label>
-                        <input type="text" id="inp-contact_bride_phone" class="admin-input" onchange="saveField('contact_bride_phone', this.value)">
+                        <input type="text" id="inp-contact_bride_phone" class="admin-input">
+                        <button class="admin-btn success" onclick="saveSectionContent(['contact_groom_name', 'contact_groom_phone', 'contact_bride_name', 'contact_bride_phone'])">Сохранить раздел</button>
                     </div>
 
                     <div class="admin-card">
                         <h3>8. Таймер</h3>
-                        <label>Дата и время (ГГГГ-ММ-ДДTЧЧ:ММ:СС)</label>
-                        <input type="text" id="inp-timer_date" class="admin-input" onchange="saveField('timer_date', this.value)">
+                        <label>Дата свадьбы (Календарь)</label>
+                        <input type="date" id="inp-timer_date_only" class="admin-input">
+                        <label>Время начала</label>
+                        <input type="time" id="inp-timer_time_only" class="admin-input">
                         <label>Фон таймера</label>
-                        <div style="display:flex; gap:10px; align-items:center;">
+                        <div style="display:flex; gap:10px; align-items:center; margin-bottom:10px;">
                             <input type="file" id="file-timer_bg" accept="image/*">
                             <button class="admin-btn" onclick="uploadPhoto('timer_bg')">Загрузить</button>
                         </div>
+                        <button class="admin-btn success" onclick="saveTimerSettings()">Сохранить время</button>
                     </div>
                 </div>
 
                 <!-- НАСТРОЙКИ (ПОЛЗУНКИ) -->
                 <div id="tab-settings" style="display: none;">
                     <h2>Настройки анкеты</h2>
-                    <p style="color:#666; font-size:14px;">Включайте и выключайте вопросы, которые видят гости.</p>
                     
                     <div class="admin-card">
                         <h3>Напитки</h3>
@@ -412,7 +430,8 @@
                             <label class="switch"><input type="checkbox" id="set-show_drinks" onchange="toggleSetting('show_drinks', this.checked)"><span class="slider"></span></label>
                         </div>
                         <label>Варианты (через запятую)</label>
-                        <input type="text" id="inp-drinks_options" class="admin-input" onchange="saveSetting('drinks_options', this.value)">
+                        <input type="text" id="inp-drinks_options" class="admin-input">
+                        <button class="admin-btn success" onclick="saveSectionSettings(['drinks_options'])">Сохранить опции</button>
                     </div>
 
                     <div class="admin-card">
@@ -422,7 +441,8 @@
                             <label class="switch"><input type="checkbox" id="set-show_menu" onchange="toggleSetting('show_menu', this.checked)"><span class="slider"></span></label>
                         </div>
                         <label>Варианты (через запятую)</label>
-                        <input type="text" id="inp-menu_options" class="admin-input" onchange="saveSetting('menu_options', this.value)">
+                        <input type="text" id="inp-menu_options" class="admin-input">
+                        <button class="admin-btn success" onclick="saveSectionSettings(['menu_options'])">Сохранить опции</button>
                     </div>
 
                     <div class="admin-card">
@@ -434,7 +454,7 @@
                         <div class="toggle-row"><label>Песни в плейлист</label><label class="switch"><input type="checkbox" id="set-show_music" onchange="toggleSetting('show_music', this.checked)"><span class="slider"></span></label></div>
                         <div class="toggle-row"><label>Время приезда</label><label class="switch"><input type="checkbox" id="set-show_arrival" onchange="toggleSetting('show_arrival', this.checked)"><span class="slider"></span></label></div>
                         <div class="toggle-row"><label>Комментарий</label><label class="switch"><input type="checkbox" id="set-show_comment" onchange="toggleSetting('show_comment', this.checked)"><span class="slider"></span></label></div>
-                        <div class="toggle-row"><label>Контакты (Остались вопросы?)</label><label class="switch"><input type="checkbox" id="set-show_contacts" onchange="toggleSetting('show_contacts', this.checked)"><span class="slider"></span></label></div>
+                        <div class="toggle-row"><label>Контакты</label><label class="switch"><input type="checkbox" id="set-show_contacts" onchange="toggleSetting('show_contacts', this.checked)"><span class="slider"></span></label></div>
                         <div class="toggle-row"><label>Таймер обратного отсчета</label><label class="switch"><input type="checkbox" id="set-show_timer" onchange="toggleSetting('show_timer', this.checked)"><span class="slider"></span></label></div>
                     </div>
                 </div>
@@ -450,6 +470,7 @@
 
         let allSettings = {};
         let siteData = {};
+        let currentSlide = 0;
 
         // --- АВТОРИЗАЦИЯ И АДМИНКА ---
         let clickCount = 0;
@@ -490,7 +511,7 @@
 
         // --- ЗАГРУЗКА ДАННЫХ В АДМИНКУ ---
         async function loadAdminData() {
-            // 1. Загрузка ответов
+            // 1. Ответы
             const { data: rsvps } = await supabaseClient.from('rsvp').select('*').order('created_at', { ascending: false });
             if (rsvps) {
                 document.getElementById('responses-list').innerHTML = rsvps.map(g => `
@@ -499,7 +520,8 @@
                             <h4 style="margin:0;">${g.name} — <span style="color:${g.attendance==='Приду'?'green':'red'}">${g.attendance}</span></h4>
                             <button class="admin-btn danger" onclick="deleteRSVP(${g.id})">Удалить</button>
                         </div>
-                        <p style="font-size:13px; margin:5px 0;">Напитки: ${g.drinks || '-'} | Меню: ${g.menu || '-'} | +1: ${g.plus_one_name || '-'}</p>
+                        <p style="font-size:13px; margin:5px 0;">Напитки: ${g.drinks || '-'} | Меню: ${g.menu || '-'}</p>
+                        ${g.plus_one_name ? `<p style="font-size:13px; margin:5px 0; color:#7c3aed;">+1: ${g.plus_one_name} (Напитки: ${g.plus_one_drinks || '-'}, Меню: ${g.plus_one_menu || '-'})</p>` : ''}
                         <p style="font-size:13px; margin:5px 0;">Трансфер: ${g.transfer || '-'} | Обратно: ${g.transfer_back || '-'} | Проживание: ${g.accommodation || '-'} | 2-й день: ${g.day2 || '-'}</p>
                         <p style="font-size:13px; margin:5px 0;">Приезд: ${g.arrival || '-'} | Музыка: ${g.music || '-'}</p>
                         <p style="font-size:13px; margin:5px 0;">Комментарий: ${g.comment || '-'}</p>
@@ -507,7 +529,7 @@
                 `).join('');
             }
 
-            // 2. Загрузка настроек
+            // 2. Настройки
             const { data: settings } = await supabaseClient.from('site_settings').select('*').single();
             if (settings) {
                 allSettings = settings;
@@ -519,7 +541,7 @@
                 });
             }
 
-            // 3. Загрузка контента
+            // 3. Контент
             const { data: content } = await supabaseClient.from('site_content').select('*');
             if (content) {
                 content.forEach(item => {
@@ -527,6 +549,16 @@
                     const inp = document.getElementById(`inp-${item.key}`);
                     if (inp) inp.value = item.value;
                 });
+                
+                // Разбиваем таймер на дату и время для инпутов
+                if (siteData['timer_date']) {
+                    const parts = siteData['timer_date'].split('T');
+                    if (parts.length === 2) {
+                        document.getElementById('inp-timer_date_only').value = parts[0];
+                        document.getElementById('inp-timer_time_only').value = parts[1].substring(0, 5);
+                    }
+                }
+                
                 renderProgramEditor();
                 renderStoryPhotosAdmin();
             }
@@ -538,29 +570,51 @@
             loadAdminData();
         }
 
+        // --- СОХРАНЕНИЕ ДАННЫХ ИЗ АДМИНКИ (Кнопки "Сохранить раздел") ---
+        async function saveSectionContent(keys) {
+            for (let key of keys) {
+                const val = document.getElementById(`inp-${key}`).value;
+                await supabaseClient.from('site_content').update({ value: val }).eq('key', key);
+                siteData[key] = val;
+            }
+            alert('Раздел сохранен!');
+            applyContentToUI(); // Мгновенно обновляем гостевую страницу
+        }
+
+        async function saveSectionSettings(keys) {
+            for (let key of keys) {
+                const val = document.getElementById(`inp-${key}`).value;
+                await supabaseClient.from('site_settings').update({ [key]: val }).eq('id', 1);
+                allSettings[key] = val;
+            }
+            alert('Опции сохранены!');
+            applySettingsToUI();
+        }
+
         async function toggleSetting(key, value) {
             await supabaseClient.from('site_settings').update({ [key]: value }).eq('id', 1);
             allSettings[key] = value;
             applySettingsToUI();
         }
-        async function saveSetting(key, value) {
-            await supabaseClient.from('site_settings').update({ [key]: value }).eq('id', 1);
-            allSettings[key] = value;
-            applySettingsToUI();
-        }
 
-        async function saveField(key, value) {
-            await supabaseClient.from('site_content').update({ value: value }).eq('key', key);
-            siteData[key] = value;
+        async function saveTimerSettings() {
+            const dateVal = document.getElementById('inp-timer_date_only').value;
+            const timeVal = document.getElementById('inp-timer_time_only').value;
+            if (!dateVal || !timeVal) return alert('Выберите дату и время');
+            
+            const combined = `${dateVal}T${timeVal}:00`;
+            await supabaseClient.from('site_content').update({ value: combined }).eq('key', 'timer_date');
+            siteData['timer_date'] = combined;
+            alert('Время сохранено!');
             applyContentToUI();
         }
 
-        // --- РАБОТА С ПРОГРАММОЙ ---
+        // --- ПРОГРАММА ---
         function renderProgramEditor() {
             let program = JSON.parse(siteData['program_data'] || '[]');
             document.getElementById('program-editor').innerHTML = program.map((p, i) => `
                 <div style="border:1px solid #ddd; padding:10px; margin-bottom:10px; border-radius:5px;">
-                    <input type="text" value="${p.time}" placeholder="Время" class="admin-input" onchange="updateProgram(${i}, 'time', this.value)">
+                    <input type="time" value="${p.time}" class="admin-input" onchange="updateProgram(${i}, 'time', this.value)" style="width: auto;">
                     <input type="text" value="${p.title}" placeholder="Название (ЗАГЛАВНЫМИ)" class="admin-input" onchange="updateProgram(${i}, 'title', this.value)">
                     <textarea placeholder="Описание" class="admin-input" onchange="updateProgram(${i}, 'desc', this.value)">${p.desc}</textarea>
                     <button class="admin-btn danger" onclick="removeProgram(${i})">Удалить</button>
@@ -569,24 +623,29 @@
         }
         function addProgramItem() {
             let program = JSON.parse(siteData['program_data'] || '[]');
-            program.push({ time: "00:00", title: "НОВОЕ СОБЫТИЕ", desc: "Описание" });
+            program.push({ time: "12:00", title: "НОВОЕ СОБЫТИЕ", desc: "Описание" });
             siteData['program_data'] = JSON.stringify(program);
-            saveField('program_data', siteData['program_data']).then(() => renderProgramEditor());
+            saveProgramData();
         }
         function removeProgram(index) {
             let program = JSON.parse(siteData['program_data'] || '[]');
             program.splice(index, 1);
             siteData['program_data'] = JSON.stringify(program);
-            saveField('program_data', siteData['program_data']).then(() => renderProgramEditor());
+            saveProgramData();
         }
         function updateProgram(index, field, value) {
             let program = JSON.parse(siteData['program_data'] || '[]');
             program[index][field] = value;
             siteData['program_data'] = JSON.stringify(program);
-            saveField('program_data', siteData['program_data']);
+            saveProgramData();
+        }
+        async function saveProgramData() {
+            await supabaseClient.from('site_content').update({ value: siteData['program_data'] }).eq('key', 'program_data');
+            renderProgramEditor();
+            applyContentToUI();
         }
 
-        // --- ЗАГРУЗКА ФОТО ---
+        // --- ФОТО ---
         async function uploadPhoto(key) {
             const fileInput = document.getElementById(`file-${key}`);
             const file = fileInput.files[0];
@@ -597,8 +656,10 @@
             if (error) return alert(error.message);
 
             const { data: urlData } = supabaseClient.storage.from('wedding-photos').getPublicUrl(fileName);
-            await saveField(key, urlData.publicUrl);
+            await supabaseClient.from('site_content').update({ value: urlData.publicUrl }).eq('key', key);
+            siteData[key] = urlData.publicUrl;
             alert('Фото загружено!');
+            applyContentToUI();
         }
 
         async function uploadStoryPhotos() {
@@ -618,8 +679,9 @@
                 }
             }
             siteData['story_photos'] = JSON.stringify(photos);
-            await saveField('story_photos', siteData['story_photos']);
+            await supabaseClient.from('site_content').update({ value: siteData['story_photos'] }).eq('key', 'story_photos');
             renderStoryPhotosAdmin();
+            applyContentToUI();
             input.value = '';
         }
 
@@ -636,8 +698,9 @@
             let photos = JSON.parse(siteData['story_photos'] || '[]');
             photos.splice(index, 1);
             siteData['story_photos'] = JSON.stringify(photos);
-            await saveField('story_photos', siteData['story_photos']);
+            await supabaseClient.from('site_content').update({ value: siteData['story_photos'] }).eq('key', 'story_photos');
             renderStoryPhotosAdmin();
+            applyContentToUI();
         }
 
         // --- ОТОБРАЖЕНИЕ НА САЙТЕ (ГОСТЕВАЯ ЧАСТЬ) ---
@@ -656,15 +719,21 @@
             document.getElementById('contacts-section').style.display = allSettings.show_contacts ? 'block' : 'none';
             document.getElementById('timer-section-wrapper').style.display = allSettings.show_timer ? 'block' : 'none';
 
-            // Генерация таблеток (Напитки / Меню)
+            // Генерация таблеток
             if(allSettings.drinks_options) {
                 document.getElementById('drinks-options').innerHTML = allSettings.drinks_options.split(',').map(opt => `
                     <label class="pill"><input type="checkbox" name="drinks" value="${opt.trim()}"><span>${opt.trim()}</span></label>
+                `).join('');
+                document.getElementById('plus-one-drinks').innerHTML = allSettings.drinks_options.split(',').map(opt => `
+                    <label class="pill"><input type="checkbox" name="plus_one_drinks" value="${opt.trim()}"><span>${opt.trim()}</span></label>
                 `).join('');
             }
             if(allSettings.menu_options) {
                 document.getElementById('menu-options').innerHTML = allSettings.menu_options.split(',').map(opt => `
                     <label class="pill"><input type="radio" name="menu" value="${opt.trim()}"><span>${opt.trim()}</span></label>
+                `).join('');
+                document.getElementById('plus-one-menu').innerHTML = allSettings.menu_options.split(',').map(opt => `
+                    <label class="pill"><input type="radio" name="plus_one_menu" value="${opt.trim()}"><span>${opt.trim()}</span></label>
                 `).join('');
             }
         }
@@ -678,7 +747,6 @@
             if(siteData.guests_text) document.getElementById('guests-text').innerText = siteData.guests_text;
             if(siteData.guests_signature) document.getElementById('guests-signature').innerText = siteData.guests_signature;
             
-            // Программа
             if(siteData.program_data) {
                 let program = JSON.parse(siteData.program_data);
                 document.getElementById('program-list').innerHTML = program.map(p => `
@@ -690,20 +758,26 @@
                 `).join('');
             }
 
-            // Ресторан
             if(siteData.venue_name) document.getElementById('venue-name').innerText = siteData.venue_name;
             if(siteData.venue_address) document.getElementById('venue-address').innerText = siteData.venue_address;
             if(siteData.venue_info) document.getElementById('venue-info').innerText = siteData.venue_info;
             if(siteData.venue_photo) document.getElementById('venue-photo').src = siteData.venue_photo;
 
-            // История и Карусель
             if(siteData.story_text) document.getElementById('story-text').innerText = siteData.story_text;
+            
+            // Слайдер
             if(siteData.story_photos) {
                 let photos = JSON.parse(siteData.story_photos);
-                document.getElementById('story-carousel').innerHTML = photos.map(url => `<img src="${url}">`).join('');
+                if (photos.length > 0) {
+                    document.getElementById('story-slider-wrapper').style.display = 'block';
+                    document.getElementById('story-slider-track').innerHTML = photos.map(url => `<img src="${url}">`).join('');
+                    currentSlide = 0;
+                    updateSlider();
+                } else {
+                    document.getElementById('story-slider-wrapper').style.display = 'none';
+                }
             }
 
-            // Контакты
             if(siteData.contact_groom_name) document.getElementById('contact-groom-name').innerText = siteData.contact_groom_name;
             if(siteData.contact_groom_phone) {
                 let el = document.getElementById('contact-groom-phone');
@@ -717,14 +791,28 @@
                 el.href = 'tel:' + siteData.contact_bride_phone.replace(/[^0-9+]/g, '');
             }
 
-            // Таймер
             if(siteData.timer_bg) document.getElementById('timer-bg').style.backgroundImage = `url('${siteData.timer_bg}')`;
             if(siteData.timer_date) startTimer(siteData.timer_date);
         }
 
+        // Логика слайдера
+        function moveSlide(direction) {
+            let photos = JSON.parse(siteData.story_photos || '[]');
+            if (photos.length === 0) return;
+            
+            currentSlide += direction;
+            if (currentSlide < 0) currentSlide = photos.length - 1;
+            if (currentSlide >= photos.length) currentSlide = 0;
+            updateSlider();
+        }
+        function updateSlider() {
+            const track = document.getElementById('story-slider-track');
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+
         function togglePlusOne() {
             const isChecked = document.getElementById('plus-one-toggle').checked;
-            document.getElementById('plus-one-input').style.display = isChecked ? 'block' : 'none';
+            document.getElementById('plus-one-form').style.display = isChecked ? 'block' : 'none';
         }
 
         function startTimer(dateStr) {
@@ -753,6 +841,8 @@
                 drinks: Array.from(document.querySelectorAll('input[name="drinks"]:checked')).map(cb => cb.value).join(', '),
                 menu: document.querySelector('input[name="menu"]:checked')?.value || '',
                 plus_one_name: document.getElementById('plus-one-toggle').checked ? document.getElementById('plus-one-name').value : '',
+                plus_one_drinks: document.getElementById('plus-one-toggle').checked ? Array.from(document.querySelectorAll('input[name="plus_one_drinks"]:checked')).map(cb => cb.value).join(', ') : '',
+                plus_one_menu: document.getElementById('plus-one-toggle').checked ? document.querySelector('input[name="plus_one_menu"]:checked')?.value || '' : '',
                 transfer: document.querySelector('input[name="transfer"]:checked')?.value || '',
                 transfer_back: document.querySelector('input[name="transfer_back"]:checked')?.value || '',
                 accommodation: document.querySelector('input[name="accommodation"]:checked')?.value || '',
@@ -772,7 +862,7 @@
                 statusEl.innerText = 'Спасибо! Ваш ответ отправлен.';
                 statusEl.style.color = 'green';
                 document.getElementById('rsvp-form').reset();
-                document.getElementById('plus-one-input').style.display = 'none';
+                document.getElementById('plus-one-form').style.display = 'none';
                 btn.disabled = false;
             }
         });
