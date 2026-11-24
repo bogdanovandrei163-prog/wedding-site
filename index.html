@@ -12,7 +12,7 @@
         body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: var(--font-p); text-align: center; line-height: 1.6; }
         h1, h2, h3 { font-family: var(--font-t); font-weight: 400; margin-bottom: 15px; }
         .amp { color: var(--accent); font-style: italic; }
-        .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(rgba(252, 249, 245, 0.6), rgba(252, 249, 245, 0.6)), url('') center/cover; }
+        .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(rgba(252, 249, 245, 0.6), rgba(252, 249, 245, 0.6)), url('') center/cover; transition: background 0.5s; }
         .hero p { letter-spacing: 3px; text-transform: uppercase; font-size: 0.9rem; }
         .hero h1 { font-size: 4.5rem; margin: 10px 0; }
         .hero .date { font-size: 1.5rem; margin-top: 20px; }
@@ -56,7 +56,7 @@
         /* Редактирование контента */
         .content-block { background: white; padding: 20px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         .content-block label { display: block; font-weight: bold; margin-bottom: 8px; font-size: 14px; }
-        .content-block input, .content-block textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px; box-sizing: border-box; font-family: sans-serif; }
+        .content-block input[type="text"], .content-block textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px; box-sizing: border-box; font-family: sans-serif; }
         .save-btn { background: #7c3aed; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 13px; }
         .save-btn:hover { background: #6d28d9; }
 
@@ -175,7 +175,6 @@
 
                 <div id="tab-content" style="display: none;">
                     <h2>Редактирование сайта</h2>
-                    <p style="color:#666; font-size:14px; margin-bottom:20px;">Вставьте прямые ссылки на картинки (заканчиваются на .jpg или .png).</p>
                     <div id="content-form-container"></div>
                 </div>
 
@@ -248,7 +247,6 @@
 
         // --- ЗАГРУЗКА ДАННЫХ В АДМИНКУ ---
         async function loadAdminData() {
-            // Ответы
             const { data: rsvps } = await supabaseClient.from('rsvp').select('*').order('created_at', { ascending: false });
             if (rsvps) {
                 document.getElementById('stat-total').innerText = rsvps.length;
@@ -262,7 +260,6 @@
                     </div>
                 `).join('');
             }
-            // Настройки
             const { data: settings } = await supabaseClient.from('site_settings').select('*').single();
             if (settings) {
                 document.getElementById('toggle-transfer').checked = settings.show_transfer;
@@ -279,7 +276,7 @@
             if (error) { alert('Ошибка сохранения: ' + error.message); return; }
             
             const { data: settings } = await supabaseClient.from('site_settings').select('*').single();
-            applySettings(settings); // Мгновенно применяем
+            applySettings(settings);
         }
         function applySettings(s) {
             document.getElementById('block-transfer').style.display = s.show_transfer ? 'block' : 'none';
@@ -291,22 +288,52 @@
         // --- РЕДАКТИРОВАНИЕ ТЕКСТОВ И ФОТО ---
         async function loadContentForm() {
             const { data } = await supabaseClient.from('site_content').select('*');
-            const labels = { 'hero_title': 'Имена', 'hero_date': 'Дата', 'hero_bg': 'Ссылка на главное фото (фон)', 'venue_photo': 'Ссылка на фото ресторана', 'story_text': 'Текст истории' };
+            const labels = { 'hero_title': 'Имена', 'hero_date': 'Дата', 'hero_bg': 'Главное фото (фон)', 'venue_photo': 'Фото ресторана', 'story_text': 'Текст истории' };
             
-            document.getElementById('content-form-container').innerHTML = data.map(item => `
-                <div class="content-block">
-                    <label>${labels[item.key] || item.key}</label>
-                    ${item.key === 'story_text' ? `<textarea id="inp-${item.key}">${item.value}</textarea>` : `<input type="text" id="inp-${item.key}" value="${item.value}">`}
-                    <button class="save-btn" onclick="saveContent('${item.key}')">Сохранить</button>
-                </div>
-            `).join('');
+            document.getElementById('content-form-container').innerHTML = data.map(item => {
+                if (item.key === 'story_text') {
+                    return `<div class="content-block"><label>${labels[item.key]}</label><textarea id="inp-${item.key}">${item.value}</textarea><button class="save-btn" onclick="saveContent('${item.key}')">Сохранить</button></div>`;
+                } else if (item.key === 'hero_bg' || item.key === 'venue_photo') {
+                    return `<div class="content-block">
+                        <label>${labels[item.key]}</label>
+                        <div style="margin-bottom:10px;"><img src="${item.value}" style="max-width:200px; border-radius:8px;" alt="Превью"></div>
+                        <input type="file" id="file-${item.key}" accept="image/*" style="margin-bottom:10px;">
+                        <button class="save-btn" onclick="uploadPhoto('${item.key}')">Загрузить и сохранить</button>
+                    </div>`;
+                } else {
+                    return `<div class="content-block"><label>${labels[item.key]}</label><input type="text" id="inp-${item.key}" value="${item.value}"><button class="save-btn" onclick="saveContent('${item.key}')">Сохранить</button></div>`;
+                }
+            }).join('');
         }
 
         async function saveContent(key) {
             const val = document.getElementById(`inp-${key}`).value;
             const { error } = await supabaseClient.from('site_content').update({ value: val }).eq('key', key);
             if (error) alert('Ошибка: ' + error.message);
-            else { alert('Сохранено!'); loadSiteContent(); } // Обновляем и сайт, и админку
+            else { alert('Сохранено!'); loadSiteContent(); }
+        }
+
+        async function uploadPhoto(key) {
+            const fileInput = document.getElementById(`file-${key}`);
+            const file = fileInput.files[0];
+            if (!file) { alert('Пожалуйста, выберите файл.'); return; }
+
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${key}-${Date.now()}.${fileExt}`;
+
+            const { error: uploadError } = await supabaseClient.storage.from('wedding-photos').upload(fileName, file);
+            if (uploadError) { alert('Ошибка загрузки: ' + uploadError.message); return; }
+
+            const { data: urlData } = supabaseClient.storage.from('wedding-photos').getPublicUrl(fileName);
+            const publicUrl = urlData.publicUrl;
+
+            const { error: updateError } = await supabaseClient.from('site_content').update({ value: publicUrl }).eq('key', key);
+            if (updateError) { alert('Ошибка сохранения ссылки: ' + updateError.message); }
+            else {
+                alert('Фото успешно загружено!');
+                loadContentForm();
+                loadSiteContent();
+            }
         }
 
         // --- ОТПРАВКА ФОРМЫ ГОСТЕМ ---
@@ -329,8 +356,7 @@
             const { error } = await supabaseClient.from('rsvp').insert([formData]);
 
             if (error) {
-                console.error(error);
-                statusEl.innerText = 'Ошибка: ' + error.message; // Теперь покажет реальную причину
+                statusEl.innerText = 'Ошибка: ' + error.message;
                 statusEl.style.color = 'red';
                 btn.disabled = false;
             } else {
@@ -353,12 +379,10 @@
             if(c.venue_photo) document.getElementById('venue-photo').src = c.venue_photo;
             if(c.story_text) document.getElementById('story-text').innerText = c.story_text;
             
-            // Настройки
             const { data: settings } = await supabaseClient.from('site_settings').select('*').single();
             if (settings) applySettings(settings);
         }
 
-        // Старт
         checkAuth();
         loadSiteContent();
     </script>
