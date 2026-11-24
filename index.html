@@ -7,66 +7,45 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        /* --- СТИЛИ ДЛЯ САЙТА ГОСТЕЙ --- */
-        :root {
-            --bg-color: #fcf9f5; --text-color: #4a3b32; --accent-color: #8b3a3a;
-            --font-title: 'Cormorant Garamond', serif; --font-text: 'Montserrat', sans-serif;
-        }
-        body { margin: 0; padding: 0; background-color: var(--bg-color); color: var(--text-color); font-family: var(--font-text); text-align: center; line-height: 1.6; }
-        h1, h2, h3 { font-family: var(--font-title); font-weight: 400; margin-bottom: 15px; }
-        .amp { color: var(--accent-color); font-style: italic; }
-        .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(rgba(252, 249, 245, 0.7), rgba(252, 249, 245, 0.7)), url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80') center/cover; }
+        /* --- СТИЛИ ГОСТЕВОЙ ЧАСТИ --- */
+        :root { --bg: #fcf9f5; --text: #4a3b32; --accent: #8b3a3a; --font-t: 'Cormorant Garamond', serif; --font-p: 'Montserrat', sans-serif; }
+        body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: var(--font-p); text-align: center; line-height: 1.6; }
+        h1, h2, h3 { font-family: var(--font-t); font-weight: 400; margin-bottom: 15px; }
+        .amp { color: var(--accent); font-style: italic; }
+        .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(rgba(252, 249, 245, 0.6), rgba(252, 249, 245, 0.6)), url('') center/cover; }
         .hero p { letter-spacing: 3px; text-transform: uppercase; font-size: 0.9rem; }
         .hero h1 { font-size: 4.5rem; margin: 10px 0; }
         .hero .date { font-size: 1.5rem; margin-top: 20px; }
         section { padding: 60px 20px; max-width: 800px; margin: 0 auto; }
-        .calendar { display: inline-grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 20px; }
-        .calendar div { padding: 10px; font-size: 0.9rem; }
-        .calendar .header { font-weight: 500; color: var(--accent-color); }
-        .calendar .highlight { background-color: var(--accent-color); color: white; border-radius: 50%; font-weight: bold; }
         .form-container { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: left; }
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.9rem; }
-        .form-group input[type="text"], .form-group select, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-family: var(--font-text); }
+        .form-group input[type="text"], .form-group select, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-family: var(--font-p); }
         .checkbox-group label { display: block; font-weight: 400; margin-bottom: 5px; cursor: pointer; }
         .radio-group { display: flex; gap: 15px; flex-wrap: wrap; }
         .radio-group label { font-weight: 400; cursor: pointer; }
-        .btn { display: inline-block; background-color: var(--accent-color); color: white; padding: 12px 30px; text-decoration: none; border-radius: 30px; margin-top: 15px; transition: 0.3s; border: none; cursor: pointer; font-family: var(--font-text); font-size: 1rem; }
-        .btn:hover { background-color: #6b2a2a; }
-        footer { padding: 40px 20px; background-color: #e8e0d5; margin-top: 40px; }
-        .countdown { display: flex; justify-content: center; gap: 20px; font-family: var(--font-title); font-size: 2.5rem; color: var(--accent-color); margin: 20px 0; }
-        .countdown div p { font-size: 0.8rem; font-family: var(--font-text); color: var(--text-color); margin: 0; text-transform: uppercase; }
+        .btn { display: inline-block; background: var(--accent); color: white; padding: 12px 30px; border-radius: 30px; margin-top: 15px; border: none; cursor: pointer; font-family: var(--font-p); font-size: 1rem; width: 100%; }
+        .btn:hover { background: #6b2a2a; }
+        footer { padding: 40px 20px; background: #e8e0d5; margin-top: 40px; }
 
-        /* --- СЕКРЕТНАЯ КНОПКА --- */
+        /* --- АДМИНКА --- */
         #secret-trigger { position: fixed; bottom: 0; left: 0; width: 50px; height: 50px; cursor: default; z-index: 9999; opacity: 0.1; }
-
-        /* --- СТИЛИ ДЛЯ АДМИНКИ (КАК НА СКРИНШОТАХ) --- */
         #admin-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .admin-panel { background: #f0f2f5; width: 90%; max-width: 1000px; height: 85%; border-radius: 15px; display: flex; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.2); font-family: sans-serif; text-align: left; }
-        
-        /* Сайдбар */
-        .sidebar { width: 220px; background: white; padding: 20px; border-right: 1px solid #ddd; flex-shrink: 0; }
+        .sidebar { width: 220px; background: white; padding: 20px; border-right: 1px solid #ddd; flex-shrink: 0; overflow-y: auto;}
         .sidebar h3 { margin-top: 0; color: #333; }
-        .menu-item { padding: 12px 15px; margin-bottom: 5px; border-radius: 8px; cursor: pointer; color: #555; font-weight: 500; transition: 0.2s; display: flex; align-items: center; gap: 10px; }
+        .menu-item { padding: 12px 15px; margin-bottom: 5px; border-radius: 8px; cursor: pointer; color: #555; font-weight: 500; display: flex; align-items: center; gap: 10px; }
         .menu-item:hover { background: #f5f5f5; }
         .menu-item.active { background: #7c3aed; color: white; }
-        
-        /* Контентная часть */
         .admin-content { flex-grow: 1; padding: 30px; overflow-y: auto; background: #f9fafb; }
-        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .close-btn { background: #eee; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        .close-btn:hover { background: #ddd; }
-
-        /* Карточки статистики */
         .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 20px; }
         .stat-card { background: white; padding: 20px; border-radius: 10px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .stat-card h2 { margin: 0; font-size: 2rem; color: #333; }
         .stat-card p { margin: 5px 0 0 0; color: #777; font-size: 0.9rem; }
-
-        /* Переключатели (Toggles) */
+        
+        /* Тумблеры */
         .toggle-row { background: white; padding: 15px 20px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         .toggle-info h4 { margin: 0; color: #333; font-size: 1rem; }
-        .toggle-info p { margin: 3px 0 0 0; color: #777; font-size: 0.8rem; }
         .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 24px; }
@@ -74,41 +53,42 @@
         input:checked + .slider { background-color: #7c3aed; }
         input:checked + .slider:before { transform: translateX(20px); }
 
-        /* Список ответов */
-        .rsvp-card { background: white; padding: 15px; border-radius: 10px; margin-bottom: 10px; border-left: 4px solid #7c3aed; }
+        /* Редактирование контента */
+        .content-block { background: white; padding: 20px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .content-block label { display: block; font-weight: bold; margin-bottom: 8px; font-size: 14px; }
+        .content-block input, .content-block textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px; box-sizing: border-box; font-family: sans-serif; }
+        .save-btn { background: #7c3aed; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 13px; }
+        .save-btn:hover { background: #6d28d9; }
 
-        /* Форма входа */
+        /* Логин */
         .login-box { background: white; padding: 40px; border-radius: 15px; text-align: center; width: 300px; }
         .login-box input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
         .login-box button { width: 100%; padding: 12px; background: #7c3aed; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        
-        @media (max-width: 768px) {
-            .admin-panel { flex-direction: column; height: 95%; width: 95%; }
-            .sidebar { width: 100%; display: flex; overflow-x: auto; padding: 10px; border-right: none; border-bottom: 1px solid #ddd; }
-            .menu-item { white-space: nowrap; padding: 10px; margin-bottom: 0; margin-right: 5px; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-        }
     </style>
 </head>
 <body>
 
-    <!-- СЕКРЕТНАЯ ЗОНА (Кликните 3 раза в левый нижний угол) -->
     <div id="secret-trigger"></div>
 
-    <!-- ОБЛОЖКА -->
-    <header class="hero">
-        <h1 id="site-title">Андрей <span class="amp">&</span> Диана</h1>
+    <!-- ГОСТЕВАЯ ЧАСТЬ -->
+    <header class="hero" id="hero-section">
+        <h1 id="site-title">Загрузка...</h1>
         <p>Приглашение на свадьбу</p>
-        <div class="date" id="site-date">ПЯТНИЦА, 25 ИЮНЯ 2027</div>
+        <div class="date" id="site-date">...</div>
     </header>
 
-    <!-- АНКЕТА -->
-    <section id="rsvp-section" style="background-color: #f4efe8;">
-        <h2 style="font-size: 3rem; margin-bottom: 5px;">Анкета гостя</h2>
+    <section>
+        <h2>Наша история</h2>
+        <p id="story-text">...</p>
+        <img id="venue-photo" src="" alt="Место проведения" style="width: 100%; max-width: 500px; border-radius: 20px; margin-top: 20px;">
+    </section>
+
+    <section style="background-color: #f4efe8;">
+        <h2 style="font-size: 3rem;">Анкета гостя</h2>
         <form id="rsvp-form" class="form-container">
             <div class="form-group">
                 <label>Имя гостя *</label>
-                <input type="text" id="name" required placeholder="Ваше Имя и Фамилия">
+                <input type="text" id="name" required placeholder="Ваше Имя">
             </div>
             <div class="form-group">
                 <label>Вы придёте? *</label>
@@ -126,8 +106,6 @@
                     <label><input type="checkbox" class="drink" value="Безалкогольные"> Безалкогольные</label>
                 </div>
             </div>
-
-            <!-- Блоки, которые можно скрывать/показывать из админки -->
             <div class="form-group" id="block-transfer">
                 <label>Нужен трансфер?</label>
                 <div class="radio-group">
@@ -135,59 +113,51 @@
                     <label><input type="radio" name="transfer" value="Нет"> Нет</label>
                 </div>
             </div>
-
             <div class="form-group" id="block-accommodation">
-                <label>Нужна помощь с проживанием?</label>
+                <label>Помощь с проживанием?</label>
                 <div class="radio-group">
                     <label><input type="radio" name="accommodation" value="Да"> Да</label>
                     <label><input type="radio" name="accommodation" value="Нет"> Нет</label>
                 </div>
             </div>
-
             <div class="form-group" id="block-day2">
-                <label>Будете ли вы на втором дне?</label>
+                <label>Будете на втором дне?</label>
                 <div class="radio-group">
                     <label><input type="radio" name="day2" value="Да"> Да</label>
                     <label><input type="radio" name="day2" value="Нет"> Нет</label>
                 </div>
             </div>
-
             <div class="form-group" id="block-music">
                 <label>Музыка (до 5 треков)</label>
-                <input type="text" id="music" placeholder="Исполнитель или песня">
+                <input type="text" id="music" placeholder="Исполнитель">
             </div>
-
-            <button type="submit" class="btn" style="width: 100%;" id="submit-btn">Отправить ответ</button>
+            <button type="submit" class="btn" id="submit-btn">Отправить ответ</button>
             <p id="status" style="text-align: center; margin-top: 15px; font-weight: 500;"></p>
         </form>
     </section>
 
-    <!-- АДМИН-ПАНЕЛЬ (Скрыта по умолчанию) -->
+    <!-- АДМИН-ПАНЕЛЬ -->
     <div id="admin-overlay">
-        
-        <!-- Форма входа -->
         <div id="admin-login" class="login-box">
             <h2>Вход</h2>
-            <p style="font-size: 12px; color: #666; margin-bottom: 20px;">Только для молодоженов</p>
             <input type="email" id="admin-email" placeholder="Email">
             <input type="password" id="admin-password" placeholder="Пароль">
             <button onclick="adminLogin()">Войти</button>
             <p id="login-error" style="color: red; font-size: 12px; margin-top: 10px;"></p>
-            <button onclick="closeAdmin()" style="background: none; color: #666; margin-top: 15px; font-size: 12px; cursor: pointer; border: none;">Закрыть</button>
+            <button onclick="closeAdmin()" style="background: none; color: #666; margin-top: 15px; font-size: 12px; border: none; cursor: pointer;">Закрыть</button>
         </div>
 
-        <!-- Сам кабинет -->
         <div id="admin-dashboard" class="admin-panel" style="display: none;">
             <div class="sidebar">
                 <h3>Кабинет</h3>
-                <div class="menu-item active" onclick="switchAdminTab('overview')">📊 Обзор</div>
-                <div class="menu-item" onclick="switchAdminTab('responses')">✉️ Ответы гостей</div>
-                <div class="menu-item" onclick="switchAdminTab('settings')">⚙️ Настройки анкеты</div>
-                <div class="menu-item" onclick="closeAdmin()" style="margin-top: 50px; color: #ff4d4f;">🚪 Выйти</div>
+                <div class="menu-item active" onclick="switchTab('overview')">📊 Обзор</div>
+                <div class="menu-item" onclick="switchTab('responses')">✉️ Ответы</div>
+                <div class="menu-item" onclick="switchTab('content')">📝 Тексты и Фото</div>
+                <div class="menu-item" onclick="switchTab('settings')">⚙️ Настройки анкеты</div>
+                <div class="menu-item" onclick="closeAdmin()" style="margin-top: 50px; color: #ff4d4f;">🚪 Закрыть</div>
             </div>
             
             <div class="admin-content">
-                <!-- Вкладка Обзор -->
                 <div id="tab-overview">
                     <h2>Обзор</h2>
                     <div class="stats-grid">
@@ -198,31 +168,33 @@
                     </div>
                 </div>
 
-                <!-- Вкладка Ответы -->
                 <div id="tab-responses" style="display: none;">
                     <h2>Ответы гостей</h2>
                     <div id="responses-list"></div>
                 </div>
 
-                <!-- Вкладка Настройки -->
+                <div id="tab-content" style="display: none;">
+                    <h2>Редактирование сайта</h2>
+                    <p style="color:#666; font-size:14px; margin-bottom:20px;">Вставьте прямые ссылки на картинки (заканчиваются на .jpg или .png).</p>
+                    <div id="content-form-container"></div>
+                </div>
+
                 <div id="tab-settings" style="display: none;">
                     <h2>Настройки анкеты</h2>
-                    <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Включайте или отключайте вопросы, которые видят гости.</p>
-                    
                     <div class="toggle-row">
-                        <div class="toggle-info"><h4>Нужен трансфер?</h4><p>Вопрос про автобусы</p></div>
+                        <div class="toggle-info"><h4>Трансфер</h4></div>
                         <label class="switch"><input type="checkbox" id="toggle-transfer" onchange="toggleSetting('show_transfer', this.checked)"><span class="slider"></span></label>
                     </div>
                     <div class="toggle-row">
-                        <div class="toggle-info"><h4>Помощь с проживанием</h4><p>Вопрос про отели</p></div>
+                        <div class="toggle-info"><h4>Проживание</h4></div>
                         <label class="switch"><input type="checkbox" id="toggle-accommodation" onchange="toggleSetting('show_accommodation', this.checked)"><span class="slider"></span></label>
                     </div>
                     <div class="toggle-row">
-                        <div class="toggle-info"><h4>Второй день</h4><p>Будет ли гость на второй день</p></div>
+                        <div class="toggle-info"><h4>Второй день</h4></div>
                         <label class="switch"><input type="checkbox" id="toggle-day2" onchange="toggleSetting('show_day2', this.checked)"><span class="slider"></span></label>
                     </div>
                     <div class="toggle-row">
-                        <div class="toggle-info"><h4>Музыка (плейлист)</h4><p>Гость может предложить трек</p></div>
+                        <div class="toggle-info"><h4>Музыка</h4></div>
                         <label class="switch"><input type="checkbox" id="toggle-music" onchange="toggleSetting('show_music', this.checked)"><span class="slider"></span></label>
                     </div>
                 </div>
@@ -231,42 +203,28 @@
     </div>
 
     <script>
-        // --- 1. ИНИЦИАЛИЗАЦИЯ ---
         const supabaseUrl = 'https://wvsfjcnqtuhoelflsczx.supabase.co';
         const supabaseKey = 'sb_publishable_fC7k0JzOVDO57yK5i92T_Q_IIL6Cvxu';
         const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-        // --- 2. СЕКРЕТНЫЙ ВХОД (3 клика по левому нижнему углу) ---
+        // --- СЕКРЕТНЫЙ ВХОД ---
         let clickCount = 0;
-        let clickTimer;
         document.getElementById('secret-trigger').addEventListener('click', () => {
             clickCount++;
-            if (clickCount === 3) {
-                document.getElementById('admin-overlay').style.display = 'flex';
-                checkAuth(); // Проверяем, может мы уже вошли
-                clickCount = 0;
-            }
-            clearTimeout(clickTimer);
-            clickTimer = setTimeout(() => { clickCount = 0; }, 1000); // Сброс через 1 сек
+            if (clickCount === 3) { document.getElementById('admin-overlay').style.display = 'flex'; checkAuth(); clickCount = 0; }
+            setTimeout(() => { clickCount = 0; }, 1000);
         });
+        function closeAdmin() { document.getElementById('admin-overlay').style.display = 'none'; }
 
-        function closeAdmin() {
-            document.getElementById('admin-overlay').style.display = 'none';
-        }
-
-        // --- 3. АВТОРИЗАЦИЯ ---
+        // --- АВТОРИЗАЦИЯ ---
         async function adminLogin() {
-            const email = document.getElementById('admin-email').value;
-            const password = document.getElementById('admin-password').value;
-            const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
-            
-            if (error) {
-                document.getElementById('login-error').innerText = 'Ошибка: неверный логин или пароль';
-            } else {
-                checkAuth();
-            }
+            const { error } = await supabaseClient.auth.signInWithPassword({ 
+                email: document.getElementById('admin-email').value, 
+                password: document.getElementById('admin-password').value 
+            });
+            if (error) { document.getElementById('login-error').innerText = 'Ошибка: ' + error.message; } 
+            else { checkAuth(); }
         }
-
         async function checkAuth() {
             const { data: { session } } = await supabaseClient.auth.getSession();
             if (session) {
@@ -279,84 +237,89 @@
             }
         }
 
-        // --- 4. ЛОГИКА АДМИНКИ ---
-        function switchAdminTab(tab) {
+        // --- ВКЛАДКИ ---
+        function switchTab(tab) {
             document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.admin-content > div').forEach(el => el.style.display = 'none');
-            
-            if (tab === 'overview') {
-                document.getElementById('tab-overview').style.display = 'block';
-                document.querySelector('.menu-item:nth-child(1)').classList.add('active');
-            } else if (tab === 'responses') {
-                document.getElementById('tab-responses').style.display = 'block';
-                document.querySelector('.menu-item:nth-child(2)').classList.add('active');
-            } else if (tab === 'settings') {
-                document.getElementById('tab-settings').style.display = 'block';
-                document.querySelector('.menu-item:nth-child(3)').classList.add('active');
-            }
+            document.getElementById(`tab-${tab}`).style.display = 'block';
+            event.currentTarget.classList.add('active');
+            if(tab === 'content') loadContentForm();
         }
 
+        // --- ЗАГРУЗКА ДАННЫХ В АДМИНКУ ---
         async function loadAdminData() {
-            // Загружаем ответы
+            // Ответы
             const { data: rsvps } = await supabaseClient.from('rsvp').select('*').order('created_at', { ascending: false });
             if (rsvps) {
-                // Статистика
                 document.getElementById('stat-total').innerText = rsvps.length;
                 document.getElementById('stat-yes').innerText = rsvps.filter(r => r.attendance === 'Приду').length;
                 document.getElementById('stat-no').innerText = rsvps.filter(r => r.attendance === 'Не смогу').length;
                 document.getElementById('stat-maybe').innerText = rsvps.filter(r => r.attendance === 'Возможно').length;
-
-                // Список
                 document.getElementById('responses-list').innerHTML = rsvps.map(g => `
-                    <div class="rsvp-card">
-                        <h4 style="margin:0 0 5px 0;">${g.name} — <span style="color:${g.attendance==='Приду'?'green':'red'}">${g.attendance}</span></h4>
-                        <p style="margin:0; font-size:14px; color:#555;">Трансфер: ${g.transfer || '-'} | Проживание: ${g.accommodation || '-'} | Второй день: ${g.day2 || '-'}</p>
+                    <div class="content-block" style="border-left: 4px solid #7c3aed;">
+                        <h4 style="margin:0;">${g.name} — <span style="color:${g.attendance==='Приду'?'green':'red'}">${g.attendance}</span></h4>
+                        <p style="font-size:14px; margin:5px 0;">Трансфер: ${g.transfer || '-'} | Проживание: ${g.accommodation || '-'} | 2-й день: ${g.day2 || '-'}</p>
                     </div>
                 `).join('');
             }
-
-            // Загружаем настройки (какие поля включены)
+            // Настройки
             const { data: settings } = await supabaseClient.from('site_settings').select('*').single();
             if (settings) {
                 document.getElementById('toggle-transfer').checked = settings.show_transfer;
                 document.getElementById('toggle-accommodation').checked = settings.show_accommodation;
                 document.getElementById('toggle-day2').checked = settings.show_day2;
                 document.getElementById('toggle-music').checked = settings.show_music;
-                applySettingsToForm(settings);
+                applySettings(settings);
             }
         }
 
+        // --- СОХРАНЕНИЕ НАСТРОЕК (ТУМБЛЕРЫ) ---
         async function toggleSetting(column, value) {
-            await supabaseClient.from('site_settings').update({ [column]: value }).eq('id', 1);
+            const { error } = await supabaseClient.from('site_settings').update({ [column]: value }).eq('id', 1);
+            if (error) { alert('Ошибка сохранения: ' + error.message); return; }
             
-            // Мгновенно применяем настройки на странице
             const { data: settings } = await supabaseClient.from('site_settings').select('*').single();
-            applySettingsToForm(settings);
+            applySettings(settings); // Мгновенно применяем
+        }
+        function applySettings(s) {
+            document.getElementById('block-transfer').style.display = s.show_transfer ? 'block' : 'none';
+            document.getElementById('block-accommodation').style.display = s.show_accommodation ? 'block' : 'none';
+            document.getElementById('block-day2').style.display = s.show_day2 ? 'block' : 'none';
+            document.getElementById('block-music').style.display = s.show_music ? 'block' : 'none';
         }
 
-        function applySettingsToForm(settings) {
-            document.getElementById('block-transfer').style.display = settings.show_transfer ? 'block' : 'none';
-            document.getElementById('block-accommodation').style.display = settings.show_accommodation ? 'block' : 'none';
-            document.getElementById('block-day2').style.display = settings.show_day2 ? 'block' : 'none';
-            document.getElementById('block-music').style.display = settings.show_music ? 'block' : 'none';
+        // --- РЕДАКТИРОВАНИЕ ТЕКСТОВ И ФОТО ---
+        async function loadContentForm() {
+            const { data } = await supabaseClient.from('site_content').select('*');
+            const labels = { 'hero_title': 'Имена', 'hero_date': 'Дата', 'hero_bg': 'Ссылка на главное фото (фон)', 'venue_photo': 'Ссылка на фото ресторана', 'story_text': 'Текст истории' };
+            
+            document.getElementById('content-form-container').innerHTML = data.map(item => `
+                <div class="content-block">
+                    <label>${labels[item.key] || item.key}</label>
+                    ${item.key === 'story_text' ? `<textarea id="inp-${item.key}">${item.value}</textarea>` : `<input type="text" id="inp-${item.key}" value="${item.value}">`}
+                    <button class="save-btn" onclick="saveContent('${item.key}')">Сохранить</button>
+                </div>
+            `).join('');
         }
 
-        // --- 5. ОТПРАВКА ФОРМЫ ГОСТЕМ ---
+        async function saveContent(key) {
+            const val = document.getElementById(`inp-${key}`).value;
+            const { error } = await supabaseClient.from('site_content').update({ value: val }).eq('key', key);
+            if (error) alert('Ошибка: ' + error.message);
+            else { alert('Сохранено!'); loadSiteContent(); } // Обновляем и сайт, и админку
+        }
+
+        // --- ОТПРАВКА ФОРМЫ ГОСТЕМ ---
         document.getElementById('rsvp-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submit-btn');
             const statusEl = document.getElementById('status');
-            
-            btn.disabled = true;
-            statusEl.innerText = 'Отправка...';
+            btn.disabled = true; statusEl.innerText = 'Отправка...'; statusEl.style.color = '#333';
 
-            const selectedDrinks = Array.from(document.querySelectorAll('.drink:checked')).map(cb => cb.value).join(', ');
-            
-            // Собираем данные (если поля скрыты, они отправятся как пустые)
             const formData = {
                 name: document.getElementById('name').value,
                 attendance: document.querySelector('input[name="attendance"]:checked')?.value || '',
-                drinks: selectedDrinks,
+                drinks: Array.from(document.querySelectorAll('.drink:checked')).map(cb => cb.value).join(', '),
                 transfer: document.querySelector('input[name="transfer"]:checked')?.value || '',
                 accommodation: document.querySelector('input[name="accommodation"]:checked')?.value || '',
                 day2: document.querySelector('input[name="day2"]:checked')?.value || '',
@@ -366,7 +329,8 @@
             const { error } = await supabaseClient.from('rsvp').insert([formData]);
 
             if (error) {
-                statusEl.innerText = 'Ошибка. Попробуйте позже.';
+                console.error(error);
+                statusEl.innerText = 'Ошибка: ' + error.message; // Теперь покажет реальную причину
                 statusEl.style.color = 'red';
                 btn.disabled = false;
             } else {
@@ -376,11 +340,27 @@
             }
         });
 
-        // При загрузке страницы сразу проверяем, какие поля включены
-        (async () => {
-             const { data: settings } = await supabaseClient.from('site_settings').select('*').single();
-             if (settings) applySettingsToForm(settings);
-        })();
+        // --- ЗАГРУЗКА КОНТЕНТА ПРИ ОТКРЫТИИ САЙТА ---
+        async function loadSiteContent() {
+            const { data } = await supabaseClient.from('site_content').select('*');
+            if (!data) return;
+            const c = {};
+            data.forEach(i => c[i.key] = i.value);
+
+            if(c.hero_title) document.getElementById('site-title').innerHTML = c.hero_title.replace('&', '<span class="amp">&</span>');
+            if(c.hero_date) document.getElementById('site-date').innerText = c.hero_date;
+            if(c.hero_bg) document.getElementById('hero-section').style.background = `linear-gradient(rgba(252, 249, 245, 0.6), rgba(252, 249, 245, 0.6)), url('${c.hero_bg}') center/cover`;
+            if(c.venue_photo) document.getElementById('venue-photo').src = c.venue_photo;
+            if(c.story_text) document.getElementById('story-text').innerText = c.story_text;
+            
+            // Настройки
+            const { data: settings } = await supabaseClient.from('site_settings').select('*').single();
+            if (settings) applySettings(settings);
+        }
+
+        // Старт
+        checkAuth();
+        loadSiteContent();
     </script>
 </body>
 </html>
