@@ -35,11 +35,11 @@
         .venue-img { width: 100%; max-width: 500px; border-radius: 20px; margin: 20px 0; }
         .venue-name { font-size: 1.8rem; text-transform: uppercase; margin-bottom: 5px; }
 
-        .slider-wrapper { position: relative; max-width: 600px; margin: 20px auto; overflow: hidden; border-radius: 15px; }
+        .slider-wrapper { position: relative; max-width: 600px; margin: 20px auto; overflow: hidden; border-radius: 15px; background: #fdfaf5; }
         .slider-track { display: flex; transition: transform 0.3s ease-in-out; }
-        .slider-track img { width: 100%; height: 350px; object-fit: cover; flex-shrink: 0; }
-        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.7); border: none; font-size: 24px; padding: 10px 15px; cursor: pointer; border-radius: 50%; color: var(--accent); z-index: 10; }
-        .slider-btn:hover { background: rgba(255,255,255,0.9); }
+        .slider-track img { width: 100%; height: 350px; object-fit: contain; flex-shrink: 0; }
+        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.8); border: none; font-size: 24px; padding: 10px 15px; cursor: pointer; border-radius: 50%; color: var(--accent); z-index: 10; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .slider-btn:hover { background: rgba(255,255,255,1); }
         .slider-prev { left: 10px; }
         .slider-next { right: 10px; }
 
@@ -77,11 +77,12 @@
         .plus-one-block { background: #fdfaf5; padding: 15px; border-radius: 10px; border: 1px dashed #ccc; margin-top: 15px; }
 
         /* --- АДМИНКА --- */
-        #secret-trigger { position: fixed; bottom: 0; left: 0; width: 50px; height: 50px; z-index: 9999; opacity: 0.1; }
+        #secret-trigger { position: fixed; bottom: 0; left: 0; width: 50px; height: 50px; z-index: 9999; opacity: 0.1; cursor: default; }
         #admin-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .admin-panel { background: #f0f2f5; width: 95%; max-width: 1100px; height: 90%; border-radius: 15px; display: flex; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.2); font-family: sans-serif; text-align: left; }
         .sidebar { width: 220px; background: white; padding: 20px; border-right: 1px solid #ddd; overflow-y: auto; flex-shrink: 0; }
         .menu-item { padding: 12px 15px; margin-bottom: 5px; border-radius: 8px; cursor: pointer; color: #555; font-weight: 500; display: flex; align-items: center; gap: 10px; }
+        .menu-item:hover { background: #f5f5f5; }
         .menu-item.active { background: #7c3aed; color: white; }
         .admin-content { flex-grow: 1; padding: 30px; overflow-y: auto; }
         
@@ -89,11 +90,13 @@
         .admin-card h3 { margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 15px; color: #333;}
         .admin-input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px; box-sizing: border-box; font-family: sans-serif; }
         .admin-btn { background: #7c3aed; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 13px; }
+        .admin-btn:hover { background: #6d28d9; }
         .admin-btn.danger { background: #ef4444; }
         .admin-btn.success { background: #10b981; }
+        .admin-btn.success:hover { background: #059669; }
         
         .toggle-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
-        .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+        .switch { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 24px; }
         .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
@@ -276,10 +279,10 @@
             <div class="timer-content">
                 <h2 style="color:white; margin-bottom: 10px;">До свадьбы осталось:</h2>
                 <div class="countdown">
-                    <div><span id="t-days">0</span><p>дней</p></div>
-                    <div><span id="t-hours">0</span><p>часов</p></div>
-                    <div><span id="t-mins">0</span><p>минут</p></div>
-                    <div><span id="t-secs">0</span><p>секунд</p></div>
+                    <div><span id="t-days">00</span><p>дней</p></div>
+                    <div><span id="t-hours">00</span><p>часов</p></div>
+                    <div><span id="t-mins">00</span><p>минут</p></div>
+                    <div><span id="t-secs">00</span><p>секунд</p></div>
                 </div>
             </div>
         </div>
@@ -342,8 +345,10 @@
                     <div class="admin-card">
                         <h3>3. Программа дня</h3>
                         <div id="program-editor"></div>
-                        <button class="admin-btn" onclick="addProgramItem()">+ Ещё мероприятие</button>
-                        <button class="admin-btn success" onclick="saveProgramData()" style="margin-left: 10px;">Сохранить программу</button>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="admin-btn" onclick="addProgramItem()">+ Ещё мероприятие</button>
+                            <button class="admin-btn success" onclick="saveProgramData()">Сохранить программу</button>
+                        </div>
                     </div>
 
                     <div class="admin-card">
@@ -454,9 +459,9 @@
         let allSettings = {};
         let siteData = {};
         let currentSlide = 0;
-        let timerInterval = null; // Переменная для хранения таймера
+        let timerInterval = null;
 
-        // --- АВТОРИЗАЦИЯ И АДМИНКА ---
+        // --- АВТОРИЗАЦИЯ ---
         let clickCount = 0;
         document.getElementById('secret-trigger').addEventListener('click', () => {
             clickCount++;
@@ -493,9 +498,8 @@
             event.currentTarget.classList.add('active');
         }
 
-        // --- ЗАГРУЗКА ДАННЫХ В АДМИНКУ ---
+        // --- ЗАГРУЗКА В АДМИНКУ ---
         async function loadAdminData() {
-            // 1. Ответы
             const { data: rsvps } = await supabaseClient.from('rsvp').select('*').order('created_at', { ascending: false });
             if (rsvps) {
                 document.getElementById('responses-list').innerHTML = rsvps.map(g => `
@@ -513,7 +517,6 @@
                 `).join('');
             }
 
-            // 2. Настройки
             const { data: settings } = await supabaseClient.from('site_settings').select('*').single();
             if (settings) {
                 allSettings = settings;
@@ -525,7 +528,6 @@
                 });
             }
 
-            // 3. Контент
             const { data: content } = await supabaseClient.from('site_content').select('*');
             if (content) {
                 content.forEach(item => {
@@ -541,7 +543,6 @@
                         document.getElementById('inp-timer_time_only').value = parts[1].substring(0, 5);
                     }
                 }
-                
                 renderProgramEditor();
                 renderStoryPhotosAdmin();
             }
@@ -553,6 +554,7 @@
             loadAdminData();
         }
 
+        // --- СОХРАНЕНИЕ КОНТЕНТА ---
         async function saveSectionContent(keys) {
             for (let key of keys) {
                 const val = document.getElementById(`inp-${key}`).value;
@@ -607,7 +609,7 @@
             let program = JSON.parse(siteData['program_data'] || '[]');
             program.push({ time: "12:00", title: "НОВОЕ СОБЫТИЕ", desc: "Описание" });
             siteData['program_data'] = JSON.stringify(program);
-            renderProgramEditor(); // Просто отрисовываем, сохраняем по кнопке
+            renderProgramEditor();
         }
         function removeProgram(index) {
             let program = JSON.parse(siteData['program_data'] || '[]');
@@ -618,7 +620,6 @@
         
         async function saveProgramData() {
             let program = JSON.parse(siteData['program_data'] || '[]');
-            // Собираем актуальные данные из полей ввода перед сохранением
             program.forEach((p, i) => {
                 const timeEl = document.getElementById(`prog-time-${i}`);
                 const titleEl = document.getElementById(`prog-title-${i}`);
@@ -693,7 +694,7 @@
             applyContentToUI();
         }
 
-        // --- ОТОБРАЖЕНИЕ НА САЙТЕ (ГОСТЕВАЯ ЧАСТЬ) ---
+        // --- ОТОБРАЖЕНИЕ НА САЙТЕ ---
         function applySettingsToUI() {
             document.getElementById('block-drinks').style.display = allSettings.show_drinks ? 'block' : 'none';
             document.getElementById('block-menu').style.display = allSettings.show_menu ? 'block' : 'none';
@@ -799,11 +800,16 @@
 
         function togglePlusOne() {
             const isChecked = document.getElementById('plus-one-toggle').checked;
-            document.getElementById('plus-one-form').style.display = isChecked ? 'block' : 'none';
+            const form = document.getElementById('plus-one-form');
+            if (isChecked) {
+                form.classList.remove('hidden'); 
+            } else {
+                form.classList.add('hidden');    
+            }
         }
 
         function startTimer(dateStr) {
-            if (timerInterval) clearInterval(timerInterval); // Очищаем старый таймер, чтобы не было конфликтов
+            if (timerInterval) clearInterval(timerInterval);
             
             const targetDate = new Date(dateStr).getTime();
             if (isNaN(targetDate)) {
@@ -817,7 +823,7 @@
                 
                 if (diff < 0) {
                     clearInterval(timerInterval);
-                    document.getElementById('t-days').innerText = "0";
+                    document.getElementById('t-days').innerText = "00";
                     document.getElementById('t-hours').innerText = "00";
                     document.getElementById('t-mins').innerText = "00";
                     document.getElementById('t-secs').innerText = "00";
@@ -829,7 +835,6 @@
                 const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                 const secs = Math.floor((diff % (1000 * 60)) / 1000);
 
-                // Форматируем с ведущими нулями, чтобы не было "NN"
                 document.getElementById('t-days').innerText = days.toString().padStart(2, '0');
                 document.getElementById('t-hours').innerText = hours.toString().padStart(2, '0');
                 document.getElementById('t-mins').innerText = mins.toString().padStart(2, '0');
@@ -871,25 +876,24 @@
                 statusEl.innerText = 'Спасибо! Ваш ответ отправлен.';
                 statusEl.style.color = 'green';
                 document.getElementById('rsvp-form').reset();
-                document.getElementById('plus-one-form').style.display = 'none';
+                document.getElementById('plus-one-form').classList.add('hidden');
                 btn.disabled = false;
             }
         });
 
-        // Инициализация при загрузке
+        // --- ИНИЦИАЛИЗАЦИЯ ---
         async function initSite() {
-            // Принудительно загружаем данные заново при каждом обновлении страницы
-            const { data: settings } = await supabaseClient.from('site_settings').select('*').single();
+            const { data: settings, error: errSettings } = await supabaseClient.from('site_settings').select('*').single();
             if (settings) { allSettings = settings; applySettingsToUI(); }
+            else if (errSettings) console.error("Ошибка настроек:", errSettings.message);
 
-            const { data: content } = await supabaseClient.from('site_content').select('*');
+            const { data: content, error: errContent } = await supabaseClient.from('site_content').select('*');
             if (content) { 
                 content.forEach(i => siteData[i.key] = i.value); 
                 applyContentToUI(); 
-            }
+            } else if (errContent) console.error("Ошибка контента:", errContent.message);
         }
 
-        // Запускаем после загрузки DOM
         document.addEventListener('DOMContentLoaded', () => {
             checkAuth();
             initSite();
