@@ -22,7 +22,6 @@
         .divider { display: flex; align-items: center; justify-content: center; margin: 40px 0; color: var(--accent); font-family: var(--font-t); font-size: 1.5rem; font-style: italic; }
         .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid #d1c8c0; margin: 0 15px; }
 
-        /* Календарь */
         .calendar { display: inline-grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 20px; }
         .calendar div { padding: 10px; font-size: 0.9rem; }
         .calendar .header { font-weight: 500; color: var(--accent); }
@@ -36,7 +35,6 @@
         .venue-img { width: 100%; max-width: 500px; border-radius: 20px; margin: 20px 0; }
         .venue-name { font-size: 1.8rem; text-transform: uppercase; margin-bottom: 5px; }
 
-        /* Слайдер (Карусель) */
         .slider-wrapper { position: relative; max-width: 600px; margin: 20px auto; overflow: hidden; border-radius: 15px; }
         .slider-track { display: flex; transition: transform 0.3s ease-in-out; }
         .slider-track img { width: 100%; height: 350px; object-fit: cover; flex-shrink: 0; }
@@ -45,7 +43,6 @@
         .slider-prev { left: 10px; }
         .slider-next { right: 10px; }
 
-        /* Форма */
         .form-container { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: left; }
         .form-group { margin-bottom: 25px; }
         .form-group > label { display: block; margin-bottom: 10px; font-weight: 500; font-size: 1rem; }
@@ -66,20 +63,17 @@
 
         .btn { display: inline-block; background: var(--accent); color: white; padding: 14px 30px; border-radius: 30px; margin-top: 10px; border: none; cursor: pointer; font-family: var(--font-p); font-size: 1rem; width: 100%; font-weight: 500;}
         
-        /* Таймер */
         .timer-section { position: relative; background-size: cover; background-position: center; padding: 80px 20px; border-radius: 20px; color: white; text-align: center; margin-top: 40px; }
         .timer-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); border-radius: 20px; }
         .timer-content { position: relative; z-index: 1; }
         .countdown { display: flex; justify-content: center; gap: 20px; font-family: var(--font-t); font-size: 2.5rem; }
         .countdown div p { font-size: 0.8rem; font-family: var(--font-p); margin: 0; text-transform: uppercase; }
 
-        /* Контакты (Жених сверху, Невеста снизу) */
         .contacts-container { display: flex; flex-direction: column; gap: 20px; margin-top: 20px; }
         .contact-card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .contact-card h4 { margin: 0 0 5px 0; font-size: 1.2rem; font-family: var(--font-t); }
         .contact-card a { color: var(--accent); text-decoration: none; font-weight: bold; font-size: 1.1rem; }
 
-        /* +1 Гость */
         .plus-one-block { background: #fdfaf5; padding: 15px; border-radius: 10px; border: 1px dashed #ccc; margin-top: 15px; }
 
         /* --- АДМИНКА --- */
@@ -113,14 +107,12 @@
 
     <div id="secret-trigger"></div>
 
-    <!-- 1. ОБЛОЖКА -->
     <header class="hero" id="hero-section">
         <h1><span id="groom-name">...</span> <span class="amp">&</span> <span id="bride-name">...</span></h1>
         <p>Приглашение на свадьбу</p>
         <div class="date" id="hero-date">...</div>
     </header>
 
-    <!-- 2. ДОРОГИЕ ГОСТИ -->
     <section>
         <h2>Дорогие гости!</h2>
         <p id="guests-text">...</p>
@@ -141,7 +133,6 @@
 
     <div class="divider">А & Д</div>
 
-    <!-- 3. ПРОГРАММА ДНЯ -->
     <section>
         <h2>Программа дня</h2>
         <div id="program-list"></div>
@@ -149,7 +140,6 @@
 
     <div class="divider">А & Д</div>
 
-    <!-- 4. ГДЕ ВСЁ ПРОИЗОЙДЁТ -->
     <section>
         <h2>Где всё произойдёт</h2>
         <img id="venue-photo" src="" class="venue-img" alt="Ресторан">
@@ -163,7 +153,6 @@
 
     <div class="divider">А & Д</div>
 
-    <!-- 5. НАША ИСТОРИЯ (Слайдер) -->
     <section>
         <h2>Наша история</h2>
         <p id="story-text" style="margin-bottom: 20px;"></p>
@@ -177,7 +166,6 @@
 
     <div class="divider">А & Д</div>
 
-    <!-- 6. АНКЕТА ГОСТЯ -->
     <section style="background-color: #f4efe8;">
         <h2 style="font-size: 3rem;">Анкета гостя</h2>
         <form id="rsvp-form" class="form-container">
@@ -204,7 +192,6 @@
                 <div class="pill-group" id="menu-options"></div>
             </div>
 
-            <!-- +1 Гость -->
             <div class="form-group" id="block-plus-one">
                 <div class="toggle-row" style="border:none; padding:0;">
                     <label>Со мной будет ещё кто-то</label>
@@ -269,7 +256,6 @@
 
     <div class="divider">А & Д</div>
 
-    <!-- 7. ОСТАЛИСЬ ВОПРОСЫ (Жених сверху, невеста снизу) -->
     <section id="contacts-section">
         <h2>Остались вопросы?</h2>
         <p>По всем вопросам можно написать или позвонить нам:</p>
@@ -285,7 +271,6 @@
         </div>
     </section>
 
-    <!-- 8. ТАЙМЕР -->
     <section id="timer-section-wrapper">
         <div class="timer-section" id="timer-bg">
             <div class="timer-content">
@@ -321,13 +306,11 @@
             </div>
             
             <div class="admin-content">
-                <!-- ОТВЕТЫ -->
                 <div id="tab-responses">
                     <h2>Ответы гостей</h2>
                     <div id="responses-list"></div>
                 </div>
 
-                <!-- ТЕКСТЫ И ФОТО -->
                 <div id="tab-content" style="display: none;">
                     <h2>Редактирование сайта</h2>
                     
@@ -360,6 +343,7 @@
                         <h3>3. Программа дня</h3>
                         <div id="program-editor"></div>
                         <button class="admin-btn" onclick="addProgramItem()">+ Ещё мероприятие</button>
+                        <button class="admin-btn success" onclick="saveProgramData()" style="margin-left: 10px;">Сохранить программу</button>
                     </div>
 
                     <div class="admin-card">
@@ -419,7 +403,6 @@
                     </div>
                 </div>
 
-                <!-- НАСТРОЙКИ (ПОЛЗУНКИ) -->
                 <div id="tab-settings" style="display: none;">
                     <h2>Настройки анкеты</h2>
                     
@@ -471,6 +454,7 @@
         let allSettings = {};
         let siteData = {};
         let currentSlide = 0;
+        let timerInterval = null; // Переменная для хранения таймера
 
         // --- АВТОРИЗАЦИЯ И АДМИНКА ---
         let clickCount = 0;
@@ -550,7 +534,6 @@
                     if (inp) inp.value = item.value;
                 });
                 
-                // Разбиваем таймер на дату и время для инпутов
                 if (siteData['timer_date']) {
                     const parts = siteData['timer_date'].split('T');
                     if (parts.length === 2) {
@@ -570,7 +553,6 @@
             loadAdminData();
         }
 
-        // --- СОХРАНЕНИЕ ДАННЫХ ИЗ АДМИНКИ (Кнопки "Сохранить раздел") ---
         async function saveSectionContent(keys) {
             for (let key of keys) {
                 const val = document.getElementById(`inp-${key}`).value;
@@ -578,7 +560,7 @@
                 siteData[key] = val;
             }
             alert('Раздел сохранен!');
-            applyContentToUI(); // Мгновенно обновляем гостевую страницу
+            applyContentToUI();
         }
 
         async function saveSectionSettings(keys) {
@@ -614,9 +596,9 @@
             let program = JSON.parse(siteData['program_data'] || '[]');
             document.getElementById('program-editor').innerHTML = program.map((p, i) => `
                 <div style="border:1px solid #ddd; padding:10px; margin-bottom:10px; border-radius:5px;">
-                    <input type="time" value="${p.time}" class="admin-input" onchange="updateProgram(${i}, 'time', this.value)" style="width: auto;">
-                    <input type="text" value="${p.title}" placeholder="Название (ЗАГЛАВНЫМИ)" class="admin-input" onchange="updateProgram(${i}, 'title', this.value)">
-                    <textarea placeholder="Описание" class="admin-input" onchange="updateProgram(${i}, 'desc', this.value)">${p.desc}</textarea>
+                    <input type="time" value="${p.time}" class="admin-input" id="prog-time-${i}" style="width: auto;">
+                    <input type="text" value="${p.title}" placeholder="Название (ЗАГЛАВНЫМИ)" class="admin-input" id="prog-title-${i}">
+                    <textarea placeholder="Описание" class="admin-input" id="prog-desc-${i}">${p.desc}</textarea>
                     <button class="admin-btn danger" onclick="removeProgram(${i})">Удалить</button>
                 </div>
             `).join('');
@@ -625,23 +607,31 @@
             let program = JSON.parse(siteData['program_data'] || '[]');
             program.push({ time: "12:00", title: "НОВОЕ СОБЫТИЕ", desc: "Описание" });
             siteData['program_data'] = JSON.stringify(program);
-            saveProgramData();
+            renderProgramEditor(); // Просто отрисовываем, сохраняем по кнопке
         }
         function removeProgram(index) {
             let program = JSON.parse(siteData['program_data'] || '[]');
             program.splice(index, 1);
             siteData['program_data'] = JSON.stringify(program);
-            saveProgramData();
-        }
-        function updateProgram(index, field, value) {
-            let program = JSON.parse(siteData['program_data'] || '[]');
-            program[index][field] = value;
-            siteData['program_data'] = JSON.stringify(program);
-            saveProgramData();
-        }
-        async function saveProgramData() {
-            await supabaseClient.from('site_content').update({ value: siteData['program_data'] }).eq('key', 'program_data');
             renderProgramEditor();
+        }
+        
+        async function saveProgramData() {
+            let program = JSON.parse(siteData['program_data'] || '[]');
+            // Собираем актуальные данные из полей ввода перед сохранением
+            program.forEach((p, i) => {
+                const timeEl = document.getElementById(`prog-time-${i}`);
+                const titleEl = document.getElementById(`prog-title-${i}`);
+                const descEl = document.getElementById(`prog-desc-${i}`);
+                if (timeEl && titleEl && descEl) {
+                    p.time = timeEl.value;
+                    p.title = titleEl.value;
+                    p.desc = descEl.value;
+                }
+            });
+            siteData['program_data'] = JSON.stringify(program);
+            await supabaseClient.from('site_content').update({ value: siteData['program_data'] }).eq('key', 'program_data');
+            alert('Программа сохранена!');
             applyContentToUI();
         }
 
@@ -719,7 +709,6 @@
             document.getElementById('contacts-section').style.display = allSettings.show_contacts ? 'block' : 'none';
             document.getElementById('timer-section-wrapper').style.display = allSettings.show_timer ? 'block' : 'none';
 
-            // Генерация таблеток
             if(allSettings.drinks_options) {
                 document.getElementById('drinks-options').innerHTML = allSettings.drinks_options.split(',').map(opt => `
                     <label class="pill"><input type="checkbox" name="drinks" value="${opt.trim()}"><span>${opt.trim()}</span></label>
@@ -765,7 +754,6 @@
 
             if(siteData.story_text) document.getElementById('story-text').innerText = siteData.story_text;
             
-            // Слайдер
             if(siteData.story_photos) {
                 let photos = JSON.parse(siteData.story_photos);
                 if (photos.length > 0) {
@@ -795,7 +783,6 @@
             if(siteData.timer_date) startTimer(siteData.timer_date);
         }
 
-        // Логика слайдера
         function moveSlide(direction) {
             let photos = JSON.parse(siteData.story_photos || '[]');
             if (photos.length === 0) return;
@@ -816,15 +803,37 @@
         }
 
         function startTimer(dateStr) {
+            if (timerInterval) clearInterval(timerInterval); // Очищаем старый таймер, чтобы не было конфликтов
+            
             const targetDate = new Date(dateStr).getTime();
-            setInterval(() => {
+            if (isNaN(targetDate)) {
+                console.error("Неверный формат даты таймера:", dateStr);
+                return;
+            }
+
+            timerInterval = setInterval(() => {
                 const now = new Date().getTime();
                 const diff = targetDate - now;
-                if (diff < 0) return;
-                document.getElementById('t-days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
-                document.getElementById('t-hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                document.getElementById('t-mins').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                document.getElementById('t-secs').innerText = Math.floor((diff % (1000 * 60)) / 1000);
+                
+                if (diff < 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById('t-days').innerText = "0";
+                    document.getElementById('t-hours').innerText = "00";
+                    document.getElementById('t-mins').innerText = "00";
+                    document.getElementById('t-secs').innerText = "00";
+                    return;
+                }
+
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+                // Форматируем с ведущими нулями, чтобы не было "NN"
+                document.getElementById('t-days').innerText = days.toString().padStart(2, '0');
+                document.getElementById('t-hours').innerText = hours.toString().padStart(2, '0');
+                document.getElementById('t-mins').innerText = mins.toString().padStart(2, '0');
+                document.getElementById('t-secs').innerText = secs.toString().padStart(2, '0');
             }, 1000);
         }
 
@@ -869,15 +878,22 @@
 
         // Инициализация при загрузке
         async function initSite() {
+            // Принудительно загружаем данные заново при каждом обновлении страницы
             const { data: settings } = await supabaseClient.from('site_settings').select('*').single();
             if (settings) { allSettings = settings; applySettingsToUI(); }
 
             const { data: content } = await supabaseClient.from('site_content').select('*');
-            if (content) { content.forEach(i => siteData[i.key] = i.value); applyContentToUI(); }
+            if (content) { 
+                content.forEach(i => siteData[i.key] = i.value); 
+                applyContentToUI(); 
+            }
         }
 
-        checkAuth();
-        initSite();
+        // Запускаем после загрузки DOM
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuth();
+            initSite();
+        });
     </script>
 </body>
 </html>
