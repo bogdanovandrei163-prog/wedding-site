@@ -10,11 +10,31 @@
         /* --- БАЗОВЫЕ СТИЛИ --- */
         :root { --bg: #fcf9f5; --text: #4a3b32; --accent: #8b3a3a; --font-t: 'Cormorant Garamond', serif; --font-p: 'Montserrat', sans-serif; }
         * { box-sizing: border-box; }
-        body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: var(--font-p); text-align: center; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        
+        /* ФОН ПО БОКАМ (п.6) */
+        body { 
+            margin: 0; padding: 0; 
+            background-color: #e8e0d5;
+            background-size: cover; 
+            background-position: center; 
+            background-attachment: fixed; /* Фиксируем фон при скролле */
+            color: var(--text); font-family: var(--font-p); text-align: center; line-height: 1.6; 
+            -webkit-font-smoothing: antialiased; 
+        }
+
+        /* ОСНОВНОЙ КОНТЕЙНЕР (создает эффект центральной страницы) */
+        #site-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--bg);
+            box-shadow: 0 0 50px rgba(0,0,0,0.3);
+            position: relative;
+            min-height: 100vh;
+        }
+
         h1, h2, h3 { font-family: var(--font-t); font-weight: 400; margin-bottom: 15px; }
         .amp { color: var(--accent); font-style: italic; }
         
-        /* УМЕНЬШЕНЫ ОТСТУПЫ ДЛЯ РАЗДЕЛОВ (п.6) */
         section { padding: 30px 20px; max-width: 800px; margin: 0 auto; }
         
         /* ОБЛОЖКА */
@@ -22,21 +42,31 @@
         .hero h1 { font-size: 4.5rem; margin: 10px 0; }
         .hero .date { font-size: 1.5rem; margin-top: 20px; letter-spacing: 3px; }
 
-        /* РАЗДЕЛИТЕЛИ (уменьшены отступы) */
-        .divider { display: flex; align-items: center; justify-content: center; margin: 20px 0; color: var(--accent); font-family: var(--font-t); font-size: 1.5rem; font-style: italic; }
+        /* РАЗДЕЛИТЕЛИ (п.5 - ширина как у анкеты) */
+        .divider { display: flex; align-items: center; justify-content: center; max-width: 800px; margin: 20px auto; color: var(--accent); font-family: var(--font-t); font-size: 1.5rem; font-style: italic; }
         .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid #d1c8c0; margin: 0 15px; }
 
-        /* КАЛЕНДАРЬ */
-        .calendar { display: inline-grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 20px; }
+        /* КАЛЕНДАРЬ (п.4 - двойная рамка) */
+        .calendar-wrapper { display: flex; justify-content: center; margin-top: 20px; }
+        .calendar { 
+            display: inline-grid; 
+            grid-template-columns: repeat(7, 1fr); 
+            gap: 10px; 
+            padding: 20px;
+            border: 4px double var(--accent); /* Двойная рамка */
+            border-radius: 15px;
+            background: white;
+        }
         .calendar div { padding: 10px; font-size: 0.9rem; }
         .calendar .header { font-weight: 500; color: var(--accent); }
         .calendar .highlight { position: relative; font-weight: bold; }
         .calendar .highlight::after { content: '❤️'; position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%); font-size: 12px; }
 
-        /* ПРОГРАММА */
+        /* ПРОГРАММА (п.3 - перенос строк) */
         .program-item { margin-bottom: 30px; }
         .program-item h3 { font-size: 1.5rem; color: var(--accent); margin-bottom: 5px; }
         .program-item h4 { margin: 0 0 5px 0; font-size: 1.1rem; }
+        .program-item p { white-space: pre-wrap; } /* Сохраняет переносы строк из админки */
 
         /* МЕСТО ПРОВЕДЕНИЯ */
         .venue-img { width: 100%; max-width: 500px; border-radius: 20px; margin: 20px 0; }
@@ -53,10 +83,7 @@
         /* --- АНКЕТА ГОСТЯ --- */
         .form-container { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: left; }
         
-        /* Общая рамка для всех полей (п.3) */
         .form-main-wrapper { border: 1px solid #e0dcd5; padding: 20px; border-radius: 15px; margin-bottom: 20px; }
-        
-        /* Общая рамка для Напитков и Меню (п.2) */
         .bordered-group { border: 1px solid #e0dcd5; padding: 20px; border-radius: 15px; margin-bottom: 20px; }
         
         .form-group { margin-bottom: 20px; }
@@ -66,22 +93,24 @@
         .input-text { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: var(--font-p); font-size: 1rem; outline: none; transition: border 0.3s; }
         .input-text:focus { border-color: var(--accent); }
 
-        /* Таблетки (Напитки/Меню) */
+        /* Таблетки */
         .pill-group { display: flex; flex-wrap: wrap; gap: 10px; }
         .pill { position: relative; cursor: pointer; }
         .pill input { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
         .pill span { display: inline-block; padding: 10px 20px; border: 1px solid #ddd; border-radius: 30px; color: #777; transition: 0.3s; font-size: 0.9rem; }
         .pill input:checked + span { background: var(--accent); color: white; border-color: var(--accent); }
 
-        /* Кнопки Да/Нет (п.8 - на всю ширину) */
+        /* Кнопки Да/Нет */
         .radio-group { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .radio-group label { cursor: pointer; width: 100%; }
         .radio-group input { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
         .radio-group span { display: block; width: 100%; text-align: center; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; color: #777; transition: 0.3s; font-size: 1rem; }
         .radio-group input:checked + span { background: var(--accent); color: white; border-color: var(--accent); }
 
-        /* Плюс один гость (п.1 - без цвета, сплошная линия) */
+        /* Плюс один гость */
         .plus-one-block { border: 1px solid #e0dcd5; padding: 20px; border-radius: 10px; margin-top: 15px; background: transparent; }
+        .add-guest-btn { background: none; border: 1px dashed var(--accent); color: var(--accent); padding: 10px; width: 100%; border-radius: 8px; cursor: pointer; margin-top: 10px; font-family: var(--font-p); transition: 0.3s; }
+        .add-guest-btn:hover { background: #fdfaf5; }
         
         .btn { display: block; width: 100%; background: var(--accent); color: white; padding: 16px; border-radius: 8px; margin-top: 10px; border: none; cursor: pointer; font-family: var(--font-p); font-size: 1rem; font-weight: 500; transition: 0.3s; }
         .btn:hover { background: #6b2a2a; }
@@ -128,13 +157,15 @@
         
         .hidden { display: none !important; }
 
-        /* --- АДАПТИВНОСТЬ (п.7) --- */
+        /* --- АДАПТИВНОСТЬ --- */
         @media (max-width: 768px) {
             .hero h1 { font-size: 3rem; }
             .hero .date { font-size: 1.2rem; }
             section { padding: 20px 15px; }
             .form-container { padding: 15px; }
             .form-main-wrapper, .bordered-group { padding: 15px; }
+            .calendar { gap: 5px; padding: 10px; }
+            .calendar div { padding: 5px; font-size: 0.7rem; }
             
             .admin-panel { flex-direction: column; height: 95%; width: 95%; }
             .sidebar { width: 100%; display: flex; overflow-x: auto; padding: 10px; border-right: none; border-bottom: 1px solid #ddd; }
@@ -142,8 +173,6 @@
             .admin-content { padding: 15px; }
             
             .countdown { font-size: 2rem; gap: 10px; }
-            .calendar { gap: 5px; font-size: 0.8rem; }
-            .calendar div { padding: 5px; }
         }
     </style>
 </head>
@@ -151,214 +180,225 @@
 
     <div id="secret-trigger"></div>
 
-    <!-- ОБЛОЖКА -->
-    <header class="hero" id="hero-section">
-        <h1><span id="groom-name">...</span> <span class="amp">&</span> <span id="bride-name">...</span></h1>
-        <p>Приглашение на свадьбу</p>
-        <div class="date" id="hero-date">...</div>
-    </header>
-
-    <!-- ДОРОГИЕ ГОСТИ -->
-    <section>
-        <h2>Дорогие гости!</h2>
-        <p id="guests-text">...</p>
-        <p style="margin-top: 20px; font-style: italic;" id="guests-signature">...</p>
+    <!-- ОБЕРТКА ДЛЯ ЦЕНТРАЛЬНОГО КОНТЕНТА -->
+    <div id="site-wrapper">
         
-        <div class="divider">А & Д</div>
-        
-        <h3>ИЮНЬ 2027</h3>
-        <div class="calendar">
-            <div class="header">ПН</div><div class="header">ВТ</div><div class="header">СР</div><div class="header">ЧТ</div><div class="header">ПТ</div><div class="header">СБ</div><div class="header">ВС</div>
-            <div>31</div><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div>
-            <div>7</div><div>8</div><div>9</div><div>10</div><div>11</div><div>12</div><div>13</div>
-            <div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div>19</div><div>20</div>
-            <div>21</div><div>22</div><div>23</div><div>24</div><div class="highlight">25</div><div>26</div><div>27</div>
-            <div>28</div><div>29</div><div>30</div><div>1</div><div>2</div><div>3</div><div>4</div>
-        </div>
-    </section>
+        <!-- ОБЛОЖКА -->
+        <header class="hero" id="hero-section">
+            <h1><span id="groom-name">...</span> <span class="amp">&</span> <span id="bride-name">...</span></h1>
+            <p>Приглашение на свадьбу</p>
+            <div class="date" id="hero-date">...</div>
+        </header>
 
-    <div class="divider">А & Д</div>
-
-    <!-- ПРОГРАММА ДНЯ -->
-    <section>
-        <h2>Программа дня</h2>
-        <div id="program-list"></div>
-    </section>
-
-    <div class="divider">А & Д</div>
-
-    <!-- МЕСТО ПРОВЕДЕНИЯ -->
-    <section>
-        <h2>Где всё произойдёт</h2>
-        <img id="venue-photo" src="" class="venue-img" alt="Ресторан">
-        <h3 id="venue-name" class="venue-name">...</h3>
-        <p id="venue-address" style="font-size: 1.1rem; margin-bottom: 20px;">...</p>
-        <div style="text-align: left; background: white; padding: 20px; border-radius: 15px;">
-            <h4 style="margin-top: 0;">Полезно знать:</h4>
-            <p id="venue-info" style="margin: 0; font-size: 0.9rem; color: #555;"></p>
-        </div>
-    </section>
-
-    <div class="divider">А & Д</div>
-
-    <!-- ИСТОРИЯ -->
-    <section>
-        <h2>Наша история</h2>
-        <p id="story-text" style="margin-bottom: 20px;"></p>
-        
-        <div class="slider-wrapper" id="story-slider-wrapper" style="display:none;">
-            <button class="slider-btn slider-prev" onclick="moveSlide(-1)">❮</button>
-            <div class="slider-track" id="story-slider-track"></div>
-            <button class="slider-btn slider-next" onclick="moveSlide(1)">❯</button>
-        </div>
-    </section>
-
-    <div class="divider">А & Д</div>
-
-    <!-- АНКЕТА ГОСТЯ -->
-    <section style="background-color: #f4efe8;">
-        <h2 style="font-size: 3rem;">Анкета гостя</h2>
-        <form id="rsvp-form" class="form-container">
+        <!-- ДОРОГИЕ ГОСТИ -->
+        <section>
+            <h2>Дорогие гости!</h2>
+            <p id="guests-text">...</p>
+            <p style="margin-top: 20px; font-style: italic;" id="guests-signature">...</p>
             
-            <!-- Общая рамка для основных полей (п.3) -->
-            <div class="form-main-wrapper">
-                <div class="form-group">
-                    <label>Имя гостя *</label>
-                    <input type="text" id="name" class="input-text" required placeholder="Ваше Имя и Фамилия">
-                </div>
-                <div class="form-group">
-                    <label>Вы придёте? *</label>
-                    <div class="radio-group">
-                        <label><input type="radio" name="attendance" value="Приду" required><span>Приду</span></label>
-                        <label><input type="radio" name="attendance" value="Не смогу"><span>Не смогу</span></label>
-                        <label><input type="radio" name="attendance" value="Возможно"><span>Возможно</span></label>
-                    </div>
+            <div class="divider">А & Д</div>
+            
+            <h3>ИЮНЬ 2027</h3>
+            <div class="calendar-wrapper">
+                <div class="calendar">
+                    <div class="header">ПН</div><div class="header">ВТ</div><div class="header">СР</div><div class="header">ЧТ</div><div class="header">ПТ</div><div class="header">СБ</div><div class="header">ВС</div>
+                    <div>31</div><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div>
+                    <div>7</div><div>8</div><div>9</div><div>10</div><div>11</div><div>12</div><div>13</div>
+                    <div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div>19</div><div>20</div>
+                    <div>21</div><div>22</div><div>23</div><div>24</div><div class="highlight">25</div><div>26</div><div>27</div>
+                    <div>28</div><div>29</div><div>30</div><div>1</div><div>2</div><div>3</div><div>4</div>
                 </div>
             </div>
+        </section>
 
-            <!-- Общая рамка для Напитков и Меню (п.2) -->
-            <div class="bordered-group" id="group-drinks-menu">
-                <div class="form-group" id="block-drinks">
-                    <label>Напитки (необязательно)</label>
-                    <div class="pill-group" id="drinks-options"></div>
-                </div>
+        <div class="divider">А & Д</div>
 
-                <div class="form-group" id="block-menu">
-                    <label>Меню</label>
-                    <div class="pill-group" id="menu-options"></div>
-                </div>
+        <!-- ПРОГРАММА ДНЯ -->
+        <section>
+            <h2>Программа дня</h2>
+            <div id="program-list"></div>
+        </section>
+
+        <div class="divider">А & Д</div>
+
+        <!-- МЕСТО ПРОВЕДЕНИЯ -->
+        <section>
+            <h2>Где всё произойдёт</h2>
+            <img id="venue-photo" src="" class="venue-img" alt="Ресторан">
+            <h3 id="venue-name" class="venue-name">...</h3>
+            <p id="venue-address" style="font-size: 1.1rem; margin-bottom: 20px;">...</p>
+            <div style="text-align: left; background: white; padding: 20px; border-radius: 15px;">
+                <h4 style="margin-top: 0;">Полезно знать:</h4>
+                <p id="venue-info" style="margin: 0; font-size: 0.9rem; color: #555;"></p>
             </div>
+        </section>
 
-            <!-- Плюс один гость -->
-            <div class="form-group" id="block-plus-one">
-                <div class="toggle-row" style="border:none; padding:0; margin-bottom: 10px;">
-                    <label>Со мной будет ещё кто-то</label>
-                    <label class="switch"><input type="checkbox" id="plus-one-toggle" onchange="togglePlusOne()"><span class="slider"></span></label>
-                </div>
-                <!-- Форма +1 (п.1, п.4) -->
-                <div id="plus-one-form" class="plus-one-block hidden">
+        <div class="divider">А & Д</div>
+
+        <!-- ИСТОРИЯ -->
+        <section>
+            <h2>Наша история</h2>
+            <p id="story-text" style="margin-bottom: 20px;"></p>
+            
+            <div class="slider-wrapper" id="story-slider-wrapper" style="display:none;">
+                <button class="slider-btn slider-prev" onclick="moveSlide(-1)">❮</button>
+                <div class="slider-track" id="story-slider-track"></div>
+                <button class="slider-btn slider-next" onclick="moveSlide(1)">❯</button>
+            </div>
+        </section>
+
+        <div class="divider">А & Д</div>
+
+        <!-- АНКЕТА ГОСТЯ -->
+        <section style="background-color: #f4efe8;">
+            <h2 style="font-size: 3rem; margin-bottom: 5px;">Анкета гостя</h2>
+            <p style="margin-bottom: 30px; color: #666;">Просим вас ответить на несколько вопросов</p> <!-- п.2 -->
+            
+            <form id="rsvp-form" class="form-container">
+                
+                <div class="form-main-wrapper">
                     <div class="form-group">
-                        <label>Имя и Фамилия</label>
-                        <input type="text" id="plus-one-name" class="input-text" placeholder="Имя спутника" style="margin-bottom:15px;">
+                        <label>Имя гостя *</label>
+                        <input type="text" id="name" class="input-text" required placeholder="Ваше Имя и Фамилия">
                     </div>
-                    
-                    <div class="form-group" id="plus-one-drinks-wrap">
-                        <label>Напитки</label>
-                        <div class="pill-group" id="plus-one-drinks"></div>
+                    <div class="form-group">
+                        <label>Вы придёте? *</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="attendance" value="Приду" required><span>Приду</span></label>
+                            <label><input type="radio" name="attendance" value="Не смогу"><span>Не смогу</span></label>
+                            <label><input type="radio" name="attendance" value="Возможно"><span>Возможно</span></label>
+                        </div>
                     </div>
-                    
-                    <div class="form-group" id="plus-one-menu-wrap" style="margin-bottom:0;">
+                </div>
+
+                <div class="bordered-group" id="group-drinks-menu">
+                    <div class="form-group" id="block-drinks">
+                        <label>Напитки (необязательно)</label>
+                        <div class="pill-group" id="drinks-options"></div>
+                    </div>
+
+                    <div class="form-group" id="block-menu">
                         <label>Меню</label>
-                        <div class="pill-group" id="plus-one-menu"></div>
+                        <div class="pill-group" id="menu-options"></div>
+                    </div>
+                </div>
+
+                <!-- Плюс один гость (п.1) -->
+                <div class="form-group" id="block-plus-one">
+                    <div class="toggle-row" style="border:none; padding:0; margin-bottom: 10px;">
+                        <label>Со мной будет ещё кто-то</label>
+                        <label class="switch"><input type="checkbox" id="plus-one-toggle" onchange="togglePlusOne()"><span class="slider"></span></label>
+                    </div>
+                    <div id="plus-one-form" class="plus-one-block hidden">
+                        <div id="plus-one-guests-container">
+                            <!-- Сюда будут добавляться гости -->
+                            <div class="plus-one-guest-item" id="plus-guest-0">
+                                <div class="form-group">
+                                    <label>Имя и Фамилия</label>
+                                    <input type="text" class="input-text p1-name" placeholder="Имя спутника" style="margin-bottom:10px;">
+                                </div>
+                                <div class="form-group" id="plus-one-drinks-wrap-0">
+                                    <label>Напитки</label>
+                                    <input type="text" class="input-text p1-drinks" placeholder="Напитки" style="margin-bottom:10px;">
+                                </div>
+                                <div class="form-group" id="plus-one-menu-wrap-0" style="margin-bottom:0;">
+                                    <label>Меню</label>
+                                    <input type="text" class="input-text p1-menu" placeholder="Меню">
+                                </div>
+                                <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+                            </div>
+                        </div>
+                        <button type="button" class="add-guest-btn" onclick="addMoreGuest()">+ Добавить ещё</button>
+                    </div>
+                </div>
+
+                <div class="bordered-group">
+                    <div class="form-group" id="block-transfer">
+                        <label>Нужен ли трансфер на свадьбу?</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="transfer" value="Да"><span>Да</span></label>
+                            <label><input type="radio" name="transfer" value="Нет"><span>Нет</span></label>
+                        </div>
+                    </div>
+                    <div class="form-group" id="block-transfer-back">
+                        <label>Нужен ли трансфер после банкета?</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="transfer_back" value="Да"><span>Да</span></label>
+                            <label><input type="radio" name="transfer_back" value="Нет"><span>Нет</span></label>
+                        </div>
+                    </div>
+                    <div class="form-group" id="block-accommodation">
+                        <label>Нужно ли помочь с размещением?</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="accommodation" value="Да"><span>Да</span></label>
+                            <label><input type="radio" name="accommodation" value="Нет"><span>Нет</span></label>
+                        </div>
+                    </div>
+                    <div class="form-group" id="block-day2" style="margin-bottom:0;">
+                        <label>Будете ли вы на втором дне?</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="day2" value="Да"><span>Да</span></label>
+                            <label><input type="radio" name="day2" value="Нет"><span>Нет</span></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bordered-group">
+                    <div class="form-group" id="block-music">
+                        <label>Какие песни добавить в плейлист?</label>
+                        <input type="text" id="music" class="input-text" placeholder="Пропишите до 5 песен, не обязательно">
+                    </div>
+                    <div class="form-group" id="block-arrival">
+                        <label>Когда планируете приехать?</label>
+                        <input type="text" id="arrival" class="input-text" placeholder="К церемонии, к банкету...">
+                    </div>
+                    <div class="form-group" id="block-comment" style="margin-bottom:0;">
+                        <label>Что ещё нам важно знать?</label>
+                        <textarea id="comment" class="input-text" rows="3" placeholder="Пожелания, уточнения..."></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn" id="submit-btn">Отправить ответ</button>
+                <p id="status" style="text-align: center; margin-top: 15px; font-weight: 500;"></p>
+            </form>
+        </section>
+
+        <div class="divider">А & Д</div>
+
+        <!-- КОНТАКТЫ -->
+        <section id="contacts-section">
+            <h2>Остались вопросы?</h2>
+            <p>По всем вопросам можно написать или позвонить нам:</p>
+            <div class="contacts-container">
+                <div class="contact-card">
+                    <h4 id="contact-groom-name">Жених</h4>
+                    <a href="#" id="contact-groom-phone"></a>
+                </div>
+                <div class="contact-card">
+                    <h4 id="contact-bride-name">Невеста</h4>
+                    <a href="#" id="contact-bride-phone"></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ТАЙМЕР -->
+        <section id="timer-section-wrapper">
+            <div class="timer-section" id="timer-bg">
+                <div class="timer-content">
+                    <h2 style="color:white; margin-bottom: 10px;">До свадьбы осталось:</h2>
+                    <div class="countdown">
+                        <div><span id="t-days">00</span><p>дней</p></div>
+                        <div><span id="t-hours">00</span><p>часов</p></div>
+                        <div><span id="t-mins">00</span><p>минут</p></div>
+                        <div><span id="t-secs">00</span><p>секунд</p></div>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <div class="bordered-group">
-                <div class="form-group" id="block-transfer">
-                    <label>Нужен ли трансфер на свадьбу?</label>
-                    <div class="radio-group">
-                        <label><input type="radio" name="transfer" value="Да"><span>Да</span></label>
-                        <label><input type="radio" name="transfer" value="Нет"><span>Нет</span></label>
-                    </div>
-                </div>
-                <div class="form-group" id="block-transfer-back">
-                    <label>Нужен ли трансфер после банкета?</label>
-                    <div class="radio-group">
-                        <label><input type="radio" name="transfer_back" value="Да"><span>Да</span></label>
-                        <label><input type="radio" name="transfer_back" value="Нет"><span>Нет</span></label>
-                    </div>
-                </div>
-                <div class="form-group" id="block-accommodation">
-                    <label>Нужно ли помочь с размещением?</label>
-                    <div class="radio-group">
-                        <label><input type="radio" name="accommodation" value="Да"><span>Да</span></label>
-                        <label><input type="radio" name="accommodation" value="Нет"><span>Нет</span></label>
-                    </div>
-                </div>
-                <div class="form-group" id="block-day2" style="margin-bottom:0;">
-                    <label>Будете ли вы на втором дне?</label>
-                    <div class="radio-group">
-                        <label><input type="radio" name="day2" value="Да"><span>Да</span></label>
-                        <label><input type="radio" name="day2" value="Нет"><span>Нет</span></label>
-                    </div>
-                </div>
-            </div>
+    </div> <!-- Конец site-wrapper -->
 
-            <div class="bordered-group">
-                <div class="form-group" id="block-music">
-                    <label>Какие песни добавить в плейлист?</label>
-                    <input type="text" id="music" class="input-text" placeholder="Пропишите до 5 песен, не обязательно">
-                </div>
-                <div class="form-group" id="block-arrival">
-                    <label>Когда планируете приехать?</label>
-                    <input type="text" id="arrival" class="input-text" placeholder="К церемонии, к банкету...">
-                </div>
-                <div class="form-group" id="block-comment" style="margin-bottom:0;">
-                    <label>Что ещё нам важно знать?</label>
-                    <textarea id="comment" class="input-text" rows="3" placeholder="Пожелания, уточнения..."></textarea>
-                </div>
-            </div>
-
-            <button type="submit" class="btn" id="submit-btn">Отправить ответ</button>
-            <p id="status" style="text-align: center; margin-top: 15px; font-weight: 500;"></p>
-        </form>
-    </section>
-
-    <div class="divider">А & Д</div>
-
-    <!-- КОНТАКТЫ -->
-    <section id="contacts-section">
-        <h2>Остались вопросы?</h2>
-        <p>По всем вопросам можно написать или позвонить нам:</p>
-        <div class="contacts-container">
-            <div class="contact-card">
-                <h4 id="contact-groom-name">Жених</h4>
-                <a href="#" id="contact-groom-phone"></a>
-            </div>
-            <div class="contact-card">
-                <h4 id="contact-bride-name">Невеста</h4>
-                <a href="#" id="contact-bride-phone"></a>
-            </div>
-        </div>
-    </section>
-
-    <!-- ТАЙМЕР -->
-    <section id="timer-section-wrapper">
-        <div class="timer-section" id="timer-bg">
-            <div class="timer-content">
-                <h2 style="color:white; margin-bottom: 10px;">До свадьбы осталось:</h2>
-                <div class="countdown">
-                    <div><span id="t-days">00</span><p>дней</p></div>
-                    <div><span id="t-hours">00</span><p>часов</p></div>
-                    <div><span id="t-mins">00</span><p>минут</p></div>
-                    <div><span id="t-secs">00</span><p>секунд</p></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- АДМИН-ПАНЕЛЬ -->
+    <!-- АДМИН-ПАНЕЛЬ (вне враппера) -->
     <div id="admin-overlay">
         <div id="admin-login" class="admin-panel" style="max-width: 400px; height: auto; display: flex; flex-direction: column; padding: 40px; align-items: center;">
             <h2 style="margin-top:0;">Вход</h2>
@@ -409,6 +449,11 @@
                         <textarea id="inp-guests_text" class="admin-input" rows="4"></textarea>
                         <label>Подпись (С любовью...)</label>
                         <input type="text" id="inp-guests_signature" class="admin-input">
+                        <label>Фон по бокам экрана (Фото)</label>
+                        <div style="display:flex; gap:10px; align-items:center; margin-bottom:10px;">
+                            <input type="file" id="file-side_bg" accept="image/*">
+                            <button class="admin-btn" onclick="uploadPhoto('side_bg')">Загрузить</button>
+                        </div>
                         <button class="admin-btn success" onclick="saveSectionContent(['guests_text', 'guests_signature'])">Сохранить раздел</button>
                     </div>
 
@@ -478,7 +523,6 @@
                     </div>
                 </div>
 
-                <!-- НАСТРОЙКИ (ПОЛЗУНКИ) -->
                 <div id="tab-settings" style="display: none;">
                     <h2>Настройки анкеты</h2>
                     
@@ -580,7 +624,7 @@
                             <button class="admin-btn danger" onclick="deleteRSVP(${g.id})">Удалить</button>
                         </div>
                         <p style="font-size:13px; margin:5px 0;">Напитки: ${g.drinks || '-'} | Меню: ${g.menu || '-'}</p>
-                        ${g.plus_one_name ? `<p style="font-size:13px; margin:5px 0; color:#7c3aed;">+1: ${g.plus_one_name} (Напитки: ${g.plus_one_drinks || '-'}, Меню: ${g.plus_one_menu || '-'})</p>` : ''}
+                        ${g.plus_one_name ? `<p style="font-size:13px; margin:5px 0; color:#7c3aed;">+1: ${g.plus_one_name}</p>` : ''}
                         <p style="font-size:13px; margin:5px 0;">Трансфер: ${g.transfer || '-'} | Обратно: ${g.transfer_back || '-'} | Проживание: ${g.accommodation || '-'} | 2-й день: ${g.day2 || '-'}</p>
                         <p style="font-size:13px; margin:5px 0;">Приезд: ${g.arrival || '-'} | Музыка: ${g.music || '-'}</p>
                         <p style="font-size:13px; margin:5px 0;">Комментарий: ${g.comment || '-'}</p>
@@ -767,7 +811,6 @@
 
         // --- ОТОБРАЖЕНИЕ НА САЙТЕ ---
         function applySettingsToUI() {
-            // Основные поля
             document.getElementById('block-drinks').style.display = allSettings.show_drinks ? 'block' : 'none';
             document.getElementById('block-menu').style.display = allSettings.show_menu ? 'block' : 'none';
             document.getElementById('block-plus-one').style.display = allSettings.show_plus_one ? 'block' : 'none';
@@ -779,13 +822,18 @@
             document.getElementById('block-arrival').style.display = allSettings.show_arrival ? 'block' : 'none';
             document.getElementById('block-comment').style.display = allSettings.show_comment ? 'block' : 'none';
             
-            // Синхронизация полей внутри +1 (п.5)
-            const plusOneDrinks = document.getElementById('plus-one-drinks-wrap');
-            if(plusOneDrinks) plusOneDrinks.style.display = allSettings.show_drinks ? 'block' : 'none';
-            
-            const plusOneMenu = document.getElementById('plus-one-menu-wrap');
-            if(plusOneMenu) plusOneMenu.style.display = allSettings.show_menu ? 'block' : 'none';
-            
+            document.getElementById('contacts-section').style.display = allSettings.show_contacts ? 'block' : 'none';
+            document.getElementById('timer-section-wrapper').style.display = allSettings.show_timer ? 'block' : 'none';
+
+            // Управление видимостью полей внутри +1 гостя
+            const plusOneItems = document.querySelectorAll('.plus-one-guest-item');
+            plusOneItems.forEach((item, index) => {
+                const dWrap = document.getElementById(`plus-one-drinks-wrap-${index}`);
+                const mWrap = document.getElementById(`plus-one-menu-wrap-${index}`);
+                if (dWrap) dWrap.style.display = allSettings.show_drinks ? 'block' : 'none';
+                if (mWrap) mWrap.style.display = allSettings.show_menu ? 'block' : 'none';
+            });
+
             // Скрываем обертку, если обе опции выключены
             const groupDrinksMenu = document.getElementById('group-drinks-menu');
             if(groupDrinksMenu) {
@@ -796,24 +844,14 @@
                 }
             }
 
-            document.getElementById('contacts-section').style.display = allSettings.show_contacts ? 'block' : 'none';
-            document.getElementById('timer-section-wrapper').style.display = allSettings.show_timer ? 'block' : 'none';
-
-            // Генерация таблеток
             if(allSettings.drinks_options) {
                 document.getElementById('drinks-options').innerHTML = allSettings.drinks_options.split(',').map(opt => `
                     <label class="pill"><input type="checkbox" name="drinks" value="${opt.trim()}"><span>${opt.trim()}</span></label>
-                `).join('');
-                document.getElementById('plus-one-drinks').innerHTML = allSettings.drinks_options.split(',').map(opt => `
-                    <label class="pill"><input type="checkbox" name="plus_one_drinks" value="${opt.trim()}"><span>${opt.trim()}</span></label>
                 `).join('');
             }
             if(allSettings.menu_options) {
                 document.getElementById('menu-options').innerHTML = allSettings.menu_options.split(',').map(opt => `
                     <label class="pill"><input type="radio" name="menu" value="${opt.trim()}"><span>${opt.trim()}</span></label>
-                `).join('');
-                document.getElementById('plus-one-menu').innerHTML = allSettings.menu_options.split(',').map(opt => `
-                    <label class="pill"><input type="radio" name="plus_one_menu" value="${opt.trim()}"><span>${opt.trim()}</span></label>
                 `).join('');
             }
         }
@@ -824,6 +862,11 @@
             if(siteData.hero_date) document.getElementById('hero-date').innerText = siteData.hero_date;
             if(siteData.hero_bg) document.getElementById('hero-section').style.background = `linear-gradient(rgba(252, 249, 245, 0.6), rgba(252, 249, 245, 0.6)), url('${siteData.hero_bg}') center/cover`;
             
+            // Применяем боковой фон
+            if(siteData.side_bg) {
+                document.body.style.backgroundImage = `url('${siteData.side_bg}')`;
+            }
+
             if(siteData.guests_text) document.getElementById('guests-text').innerText = siteData.guests_text;
             if(siteData.guests_signature) document.getElementById('guests-signature').innerText = siteData.guests_signature;
             
@@ -898,6 +941,40 @@
             }
         }
 
+        // Добавление ещё одного гостя (+1)
+        function addMoreGuest() {
+            const container = document.getElementById('plus-one-guests-container');
+            const index = container.children.length; // Текущее количество
+            
+            const div = document.createElement('div');
+            div.className = 'plus-one-guest-item';
+            div.id = `plus-guest-${index}`;
+            
+            div.innerHTML = `
+                <div class="form-group">
+                    <label>Имя и Фамилия</label>
+                    <input type="text" class="input-text p1-name" placeholder="Имя спутника" style="margin-bottom:10px;">
+                </div>
+                <div class="form-group" id="plus-one-drinks-wrap-${index}">
+                    <label>Напитки</label>
+                    <input type="text" class="input-text p1-drinks" placeholder="Напитки" style="margin-bottom:10px;">
+                </div>
+                <div class="form-group" id="plus-one-menu-wrap-${index}" style="margin-bottom:0;">
+                    <label>Меню</label>
+                    <input type="text" class="input-text p1-menu" placeholder="Меню">
+                </div>
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+            `;
+            
+            container.appendChild(div);
+            
+            // Сразу применяем настройки видимости для новых полей
+            const dWrap = document.getElementById(`plus-one-drinks-wrap-${index}`);
+            const mWrap = document.getElementById(`plus-one-menu-wrap-${index}`);
+            if (dWrap) dWrap.style.display = allSettings.show_drinks ? 'block' : 'none';
+            if (mWrap) mWrap.style.display = allSettings.show_menu ? 'block' : 'none';
+        }
+
         function startTimer(dateStr) {
             if (timerInterval) clearInterval(timerInterval);
             
@@ -939,14 +1016,25 @@
             const statusEl = document.getElementById('status');
             btn.disabled = true; statusEl.innerText = 'Отправка...'; statusEl.style.color = '#333';
 
+            // Собираем всех +1 гостей
+            let p1Names = [], p1Drinks = [], p1Menus = [];
+            document.querySelectorAll('.plus-one-guest-item').forEach(div => {
+                let n = div.querySelector('.p1-name').value.trim();
+                let d = div.querySelector('.p1-drinks').value.trim();
+                let m = div.querySelector('.p1-menu').value.trim();
+                if (n) {
+                    p1Names.push(`${n} (${d || '-'}, ${m || '-'})`);
+                }
+            });
+
             const formData = {
                 name: document.getElementById('name').value,
                 attendance: document.querySelector('input[name="attendance"]:checked')?.value || '',
                 drinks: Array.from(document.querySelectorAll('input[name="drinks"]:checked')).map(cb => cb.value).join(', '),
                 menu: document.querySelector('input[name="menu"]:checked')?.value || '',
-                plus_one_name: document.getElementById('plus-one-toggle').checked ? document.getElementById('plus-one-name').value : '',
-                plus_one_drinks: document.getElementById('plus-one-toggle').checked ? Array.from(document.querySelectorAll('input[name="plus_one_drinks"]:checked')).map(cb => cb.value).join(', ') : '',
-                plus_one_menu: document.getElementById('plus-one-toggle').checked ? document.querySelector('input[name="plus_one_menu"]:checked')?.value || '' : '',
+                plus_one_name: document.getElementById('plus-one-toggle').checked ? p1Names.join('; ') : '',
+                plus_one_drinks: '', // Теперь всё хранится в plus_one_name для удобства
+                plus_one_menu: '',
                 transfer: document.querySelector('input[name="transfer"]:checked')?.value || '',
                 transfer_back: document.querySelector('input[name="transfer_back"]:checked')?.value || '',
                 accommodation: document.querySelector('input[name="accommodation"]:checked')?.value || '',
@@ -967,6 +1055,11 @@
                 statusEl.style.color = 'green';
                 document.getElementById('rsvp-form').reset();
                 document.getElementById('plus-one-form').classList.add('hidden');
+                // Удаляем добавленных гостей, оставляя только первого
+                const container = document.getElementById('plus-one-guests-container');
+                while(container.children.length > 1) {
+                    container.removeChild(container.lastChild);
+                }
                 btn.disabled = false;
             }
         });
